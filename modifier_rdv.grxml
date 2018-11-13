@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar version="1.0" root="modif" xml:lang="en">
+
+<meta name="description" content="grammar pour modifier un rdv"/>
+<meta name="author" content="Jessica Chambers"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<rule id="modif" scope="public">
+	<item repeat="1-">
+		<one-of>
+			<!--elements for identification of rdv-->
+			<item>
+				<ruleref uri="#date"/>
+				<tag>out.date = rules.date</tag>
+			</item>
+			<!--<item>
+				<ruleref uri="#heure"/>
+				<tag>out.heure = rules.heure</tag>
+			</item>
+			new values of rdv
+			<item>
+				<ruleref uri="#new_date"/>
+				<tag>out.new_date = rules.new_date</tag>
+			</item>
+			<item>
+				<ruleref uri="#new_heure"/>
+				<tag>out.new_heure = rules.new_heure</tag>
+			</item>
+			<item>
+				<ruleref uri="#new_lieu"/>
+				<tag>out.new_lieu = rules.new_lieu</tag>
+			</item>-->
+		</one-of>
+	</item>
+</rule>
+
+<rule id="datecourant" scope="public">
+  <ruleref uri="#date"/>
+  <tag> out = rules.date</tag>
+</rule>
+
+<rule id="date">
+	<tag> in_date = new Object; </tag>
+	<item repeat="0-1">
+		<item>
+			<ruleref uri="grammaire_dates_v3.grxml#Sans_annee" />
+			<tag> 	in_date.jour = rules.num_jour;
+					in_date.mois = rules.num_mois;
+					in_date.annee = rules.nb_annee; </tag>
+		</item>
+		<item>
+			<ruleref uri="grammaire_dates_v3.grxml#Avec_annee" />
+			<tag> out.date = out.text + " " + rules.text; </tag>
+		</item>
+	</item>
+</rule>
+
+
+<!-- SQL output
+"UPDATE rdv
+SET date = new_date, heure = new_heure, lieu = new_lieu
+WHERE date = date AND heure = heure;"
+-->
+
+</grammar>

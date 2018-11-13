@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ATTENTION : UTF-8 = PAS DE CARACTERES ACCENTUES -->
+<!-- si PB message : Invalid UTF-8 character --> 
+
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Gestion agenda version 0"/>
+<meta name="author" content="Pierre MESPOULET"/>
+<meta name="copyright" content="IUP SI M2 Pro Dialogue"/>
+
+<!-- Version de base : gestion de dialogue et comprehension -->
+<!-- Demande et verification du numero d'abonne -->
+
+<!-- Activation de la grammaire permettant la detection des -->
+<!-- demandes d'aide formulees par l'utilisateur            -->
+
+<catch event="exit">
+  <prompt> La prise de rendez-vous est annulee, a bientot</prompt>
+  <exit/>
+</catch>
+
+<link event="exit">
+  <grammar root="main">
+    <rule id="main" scope="public">
+      <one-of>
+        <item> quitter </item>
+        <item> fermer </item>
+		<item> arreter </item>
+		<item> exit </item>
+		<item> quit </item>
+      </one-of>
+    </rule>
+  </grammar>
+</link> 
+
+<link event="help">
+<grammar src="grammaire_aide.grxml" type="application/srgs+xml" />
+</link>
+
+
+<form id="agenda">
+
+	<var name="reponse" />
+	<var name="message_confirm" />
+
+	<!-- declaration des variables Javascript -->
+	<script>
+		   <!-- exemple de gestion de la date au format Ecmascript --> 
+		   <!-- Date courante -->
+			var now = new Date(2018, 11, 9, 15, 30, 0, 0);
+		   <!-- Valeur de la date fournie par l'utilisateur -->
+			var date_choisie = new Date();
+		   <!-- Activation/desactivation du mode TRACE -->
+			var mode_trace ="false";
+	</script>
+
+	
+	<block>
+		Bienvenue sur le service de gestion de votre agenda. 
+		Aujourd'hui nous sommes le <value expr="now.toString()" />
+		<value expr="now.valueOf()" />
+	</block>
+
+	
+	
+	<field name="num_abonne">
+		<prompt> Quel est votre numero d'abonne ? </prompt>
+		<grammar src="grammaire_num_ab_v2.grxml" type="application/srgs+xml"/>
+		<help> Renseignez votre numero d'abonne, il doit etre inferieur a deux mille cinq cents </help>
+		<noinput> Je n'ai pas entendu. Pouriez-vous me preciser votre numero d'abonne ? </noinput>
+		<nomatch> Je n'ai pas compris. Pouriez-vous me donner votre numero d'abonne s'il vous plait ? </nomatch>
+		<filled>
+			<if cond="num_abonne.nb &lt;= 2500 &amp;&amp; num_abonne.nb  >= 1">
+				Votre numero d'abonne est le <value expr="num_abonne.text" /> 
+				<if cond="mode_trace=='True'">
+					TRACE VALEUR  <value expr="num_abonne.nb" />
+				</if>
+			<else/>
+				<clear namelist= "num_abonne"/>
+			</if>
+	  </filled>
+	</field>
+
+
+	<subdialog name="confirm1" src="subdialog_confirmation.vxml">
+		<filled>
+			<if cond="confirm1.confirm_input=='True'">
+				<assign name="message_confirm" expr="'TRACE num_abonne confirme'" />
+			<else/>
+				<assign name="message_confirm" expr="'TRACE num_abonne confirme'" />
+				<clear namelist="num_abonne confirm1" />
+			</if>
+		   <if cond="mode_trace=='True'">
+			 TRACE Reponse <value expr="message_confirm" />
+		   </if>
+	   </filled>
+    </subdialog>
+  
+
+	<field name = "date">
+		<prompt> Pouriez-vous me donner une date de rendez-vous ? </prompt>
+		<grammar src ="grammaire_dates_v3.grxml" type="application/srgs+xml" />
+		<help> Donner d'abord le jour de la semaine, puis la date du rendez-vous suivi du mois, et optionnellement l'annee  </help>
+		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner la date du rendez-vous s'il vous plait ? </noinput>
+		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner la date du rendez-vous s'il vous plait ? </nomatch>
+		<filled>
+			Le rendez-vous aura lieu le <value expr="date.text"/>
+			<if cond="mode_trace=='True'">
+				TRACE VALEUR  <value expr="date.num_jour" /> <value expr="date.nb_jour" /> <value expr="date.num_mois" /> <value expr="date.nb_annee" />
+			</if>
+		</filled>
+	</field>
+
+
+
+	<subdialog name="confirm2" src="subdialog_confirmation.vxml">
+		<filled>
+			<if cond="confirm2.confirm_input=='True'">
+				<assign name="message_confirm" expr="'TRACE date confirme'" />
+			<else/>
+				<assign name="message_confirm" expr="'TRACE date confirme'" />
+				<clear namelist="date confirm2" />
+			</if>
+		   <if cond="mode_trace=='True'">
+			 TRACE Reponse <value expr="message_confirm" />
+		   </if>
+	   </filled>
+    </subdialog>
+	
+	
+	<field name = "horaire">
+		<prompt> Pouriez-vous me donner un horaire pour le rendez-vous ? </prompt>
+		<grammar src ="horaire.grxml" type="application/srgs+xml" />
+		<help> Donner l'heure puis les minutes </help>
+		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner l'horaire du rendez-vous s'il vous plait ? </noinput>
+		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner l'horaire du rendez-vous s'il vous plait ? </nomatch>
+		<filled>
+				<if cond="horaire.H &gt; 23 || horaire.H &gt; 60">
+					<prompt> L'horaire demande n'est pas valide </prompt>
+					<clear namelist= "horaire"/>
+				</if>
+				<if cond="horaire.NB_MN &lt; 450 || horaire.NB_MN &gt; 1290">
+					<prompt> L'horaire demande est en dehors des heures d'ouvertures, veuillez selectionner un horaire entre sept heures trente et vingt et une heures trente </prompt>
+					<clear namelist="horaire" />
+				<else/>
+					Le rendez-vous aura lieu a <value expr="horaire.text"/>  
+				</if>
+				<if cond="mode_trace=='True'">
+					TRACE VALEUR  <value expr="horaire.text"/>  
+				</if>
+		</filled>
+	</field>
+
+
+	
+	<subdialog name="confirm3" src="subdialog_confirmation.vxml">
+		<filled>
+			<if cond="confirm3.confirm_input=='True'">
+				<assign name="message_confirm" expr="'TRACE horaire confirme'" />
+			<else/>
+				<assign name="message_confirm" expr="'TRACE horaire confirme'" />
+				<clear namelist="horaire confirm3" />
+			</if>
+		   <if cond="mode_trace=='True'">
+			 TRACE Reponse <value expr="message_confirm" />
+		   </if>
+	   </filled>
+    </subdialog>
+	
+	
+	<field name = "lieu">
+		<prompt> Pouriez-vous renseigner le lieu du rendez-vous ? </prompt>
+		<grammar src ="grammaire_lieu.grxml" type="application/srgs+xml" />
+		<help> Indiquez la ville du rendez-vous, les possibilites sont Toulouse, Marseille, Bordeaux et Paris</help>
+		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner le lieu du rendez-vous s'il vous plait ? </noinput>
+		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner le lieu du rendez-vous s'il vous plait ? </nomatch>
+		<filled>
+			Le rendez-vous aura lieu a <value expr="lieu.text"/>
+			<if cond="mode_trace=='True'">
+				TRACE VALEUR  <value expr="lieu.text"/>
+			</if>
+		</filled>
+	</field>
+	
+	
+	<subdialog name="confirm4" src="subdialog_confirmation.vxml">
+		<filled>
+			<if cond="confirm4.confirm_input=='True'">
+				<assign name="message_confirm" expr="'TRACE lieu confirme'" />
+			<else/>
+				<assign name="message_confirm" expr="'TRACE lieu confirme'" />
+				<clear namelist="lieu confirm4" />
+			</if>
+		   <if cond="mode_trace=='True'">
+			 TRACE Reponse <value expr="message_confirm" />
+		   </if>
+	   </filled>
+    </subdialog>
+	
+	
+	<field name = "personne">
+		<prompt> Pouriez-vous renseigner le nom de la personne avec qui vous souhaitez prendre rendez-vous ? </prompt>
+		<grammar src ="grammaire_personne.grxml" type="application/srgs+xml" />
+		<help> Indiquez le nom et optionnelement le titre de la personne avec qui vous souhaitez prendre rendez-vous</help>
+		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner le nom de la personne avec qui vous souhaitez prendre rendez-vous s'il vous plait ? </noinput>
+		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner le nom de la personne avec qui vous souhaitez prendre rendez-vous s'il vous plait ? </nomatch>
+		<filled>
+			Vous avez rendez-vous avec <value expr="personne.nom"/>
+			<if cond="mode_trace=='True'">
+				TRACE VALEUR  <value expr="personne.nom"/>
+			</if>
+		</filled>
+	</field>
+	
+
+	
+	<subdialog name="confirm5" src="subdialog_confirmation.vxml">
+		<filled>
+			<if cond="confirm5.confirm_input=='True'">
+				<assign name="message_confirm" expr="'TRACE personne confirme'" />
+			<else/>
+				<assign name="message_confirm" expr="'TRACE personne confirme'" />
+				<clear namelist="personne confirm5" />
+			</if>
+		   <if cond="mode_trace=='True'">
+			 TRACE Reponse <value expr="message_confirm" />
+		   </if>
+	   </filled>
+    </subdialog>
+	
+	
+<field name = "objet">
+		<prompt> Pouriez-vous renseigner l'objet du rendez-vous ? </prompt>
+		<grammar src ="grammaire_objet.grxml" type="application/srgs+xml" />
+		<help> Indiquez l'objet du rendez-vous, les possibilités sont </help>
+		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner l'objet du rendez-vous s'il vous plait ? </noinput>
+		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner l'objet du rendez-vous s'il vous plait ? </nomatch>
+		<filled>
+			L'objet du rendez-vous est un <value expr="objet.text"/>
+			<if cond="mode_trace=='True'">
+				TRACE VALEUR  <value expr="objet.text"/>
+			</if>
+		</filled>
+	</field>
+	
+
+	
+	<subdialog name="confirm6" src="subdialog_confirmation.vxml">
+		<filled>
+			<if cond="confirm6.confirm_input=='True'">
+				<assign name="message_confirm" expr="'TRACE objet confirme'" />
+			<else/>
+				<assign name="message_confirm" expr="'TRACE objet confirme'" />
+				<clear namelist="objet confirm6" />
+			</if>
+		   <if cond="mode_trace=='True'">
+			 TRACE Reponse <value expr="message_confirm" />
+		   </if>
+	   </filled>
+    </subdialog>
+	
+
+	<block>
+		Vous avez pris rendez vous le <value expr="date.text"/> 
+		a <value expr="horaire.text"/>  
+		a <value expr="lieu.text"/> 
+		avec <value expr="personne.nom"/> 
+		pour un <value expr="objet.text"/>
+	</block>
+
+
+
+</form>
+</vxml>
