@@ -39,10 +39,24 @@
   <tag> out = rules.action</tag>
 </rule>
 
+<rule id="manage_agenda" scope="public">
+	<ruleref uri="#action"/>
+	
+	<one-of>
+		<item repeat="0-1"> un rendez-vous </item>
+		<item repeat="0-1"> le rendez-vous </item>
+	</one-of>
+	
+	<one-of>
+	    <item> <ruleref uri="#date_out"/> </item>
+	</one-of>
+</rule>
+
 <rule id="action">
 	<one-of>
 	    <item>ajouter</item>
 	    <item>creer<tag>out = "ajouter"</tag></item>
+		<item>prendre<tag>out = "ajouter"</tag></item>
 	    <item>supprimer</item>
 	    <item>enlever<tag>out = "supprimer"</tag></item>
 	    <item>annuler<tag>out = "supprimer"</tag></item>
