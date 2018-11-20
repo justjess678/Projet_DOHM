@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar version="1.0" root="modif" xml:lang="en">
+<grammar version="1.0" root="modif" xml:lang="fr">
 
 <meta name="description" content="grammar pour modifier un rdv"/>
 <meta name="author" content="Jessica Chambers"/>
