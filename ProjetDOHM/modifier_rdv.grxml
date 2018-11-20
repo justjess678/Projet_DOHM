@@ -4,6 +4,9 @@
 <meta name="description" content="grammar pour modifier un rdv"/>
 <meta name="author" content="Jessica Chambers"/>
 <meta name="copyright" content="free for any purpose"/>
+	
+<!-- This grammar used in combination with the "UPDATE" SQL command allows
+the user to move their meeting both in time and geographically -->
 
 <rule id="modif" scope="public">
 	<tag>
