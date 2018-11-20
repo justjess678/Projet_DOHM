@@ -17,19 +17,6 @@
 				<ruleref uri="#heure"/>
 				<tag>out.heure = rules.heure</tag>
 			</item>
-			<!--new values of rdv-->
-			<!--<item>
-				<ruleref uri="#new_date"/>
-				<tag>out.new_date = rules.new_date</tag>
-			</item>
-			<item>
-				<ruleref uri="#new_heure"/>
-				<tag>out.new_heure = rules.new_heure</tag>
-			</item>
-			<item>
-				<ruleref uri="#new_lieu"/>
-				<tag>out.new_lieu = rules.new_lieu</tag>
-			</item>-->
 		</one-of>
 	</item>
 </rule>
@@ -79,12 +66,5 @@
 			</tag>
 		</item>
 </rule>
-
-
-<!-- SQL output
-"UPDATE rdv
-SET date = new_date, heure = new_heure, lieu = new_lieu
-WHERE date = date AND heure = heure;"
--->
 
 </grammar>
