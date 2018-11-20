@@ -63,9 +63,10 @@
 	<tag> out.in_date = new Object; </tag>
 		<item>
 			<ruleref uri="grammaire_dates_v3.grxml#Date" />
-			<tag> 	out.in_date.jour = rules.num_jour;
-					out.in_date.mois = rules.num_mois;
-					out.in_date.annee = rules.nb_annee; </tag>
+			<tag> 	out.in_date.jour = rules.Date.nb_jour;
+					out.in_date.mois = rules.Date.num_mois;
+					out.in_date.annee = rules.Date.nb_annee;
+			</tag>
 		</item>
 </rule>
 
