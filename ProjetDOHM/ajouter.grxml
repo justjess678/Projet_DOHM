@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar version="1.0" root="ajouter" xml:lang="en">
+<grammar version="1.0" root="ajouter" xml:lang="fr">
 
-<meta name="description" content="grammar pour modifier un rdv"/>
-<meta name="author" content="Jessica Chambers"/>
+<meta name="description" content="grammar pour ajouter un rdv"/>
+<meta name="author" content="Pierre Mespoulet"/>
 <meta name="copyright" content="free for any purpose"/>
 
 <rule id="ajouter" scope="public">
@@ -50,10 +50,6 @@
   <ruleref uri="#action"/>
   <tag> out = rules.action</tag>
 </rule>
-
-
-
-
 
 <rule id="date">
 	<tag> out.date = new Object; </tag>
