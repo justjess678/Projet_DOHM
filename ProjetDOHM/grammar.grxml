@@ -13,12 +13,12 @@
 				<ruleref uri="#date"/>
 				<tag>out.date = rules.date</tag>
 			</item>
-			<!--<item>
+			<item>
 				<ruleref uri="#heure"/>
 				<tag>out.heure = rules.heure</tag>
 			</item>
-			new values of rdv
-			<item>
+			<!--new values of rdv-->
+			<!--<item>
 				<ruleref uri="#new_date"/>
 				<tag>out.new_date = rules.new_date</tag>
 			</item>
@@ -66,6 +66,16 @@
 			<tag> 	out.in_date.jour = rules.Date.nb_jour;
 					out.in_date.mois = rules.Date.num_mois;
 					out.in_date.annee = rules.Date.nb_annee;
+			</tag>
+		</item>
+</rule>
+
+<rule id="heure">
+	<tag> out.in_heure = new Object; </tag>
+		<item>
+			<ruleref uri="horaire.grxml#Horaire" />
+			<tag> 	out.in_heure.heure = rules.Horaire.H;
+					out.in_heure.minute = rules.Horaire.MN;
 			</tag>
 		</item>
 </rule>
