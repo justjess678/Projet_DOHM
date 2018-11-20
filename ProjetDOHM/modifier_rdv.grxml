@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar version="1.0" root="modif" xml:lang="fr">
+<grammar version="1.0" root="modif" xml:lang="en">
 
 <meta name="description" content="grammar pour modifier un rdv"/>
 <meta name="author" content="Jessica Chambers"/>
 <meta name="copyright" content="free for any purpose"/>
-	
-<!-- This grammar used in combination with the "UPDATE" SQL command allows
-the user to move their meeting both in time and geographically -->
 
 <rule id="modif" scope="public">
 	<tag>
@@ -72,7 +69,28 @@ WHERE date = date AND heure = heure;"
 
 </grammar>
 
-<!-- Exemple de sortie (onze heures le dix mai a Toulouse)
+<!-- Example output - any, all or none of the options can be used. If they remain unused they return ""
+(onze heures le dix mai a Toulouse)
+Semantic result: {
+  date: {
+    date: {
+      jour: 10,
+      mois: 4,
+      annee: 0
+    }
+  },
+  heure: {
+    heure: {
+      heure: 11,
+      minute: 0
+    }
+  },
+  lieu: {
+    lieu: "Toulouse"
+  }
+}
+
+(le dix mai a Toulouse)
 Semantic result: {
   date: {
     date: {
