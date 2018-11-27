@@ -7,7 +7,6 @@
 
 <rule id="deplacer" scope="public">
 	<tag>
-		out.date = "";
 		out.heure = "";
 	</tag>
 	<item repeat="1-">
@@ -16,7 +15,7 @@
 			<!--new values of rdv-->
 			 <item>
 				<item repeat="0-1"> du </item>
-				<ruleref uri="#date"/>
+				<ruleref uri="#set_date"/>
 				<item repeat="0-1"> au </item>
 				<tag>
 				  if (typeof out.dates.date != "object") out.dates.date = new Array;
@@ -35,7 +34,7 @@
 
 <rule id="set_date" scope="public">
   <tag> out.dates = new Array; </tag>
-  <item repeat="1-2">
+  <item repeat="1-">
 	<item repeat="0-1"> du </item>
 	<ruleref uri="#date"/>
 	<item repeat="0-1"> au </item>

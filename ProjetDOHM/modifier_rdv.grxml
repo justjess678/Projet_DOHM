@@ -6,6 +6,11 @@
 <meta name="copyright" content="free for any purpose"/>
 
 <rule id="modifier" scope="public">
+	<tag>
+		out.new_lieu = "";
+		out.new_sujet = "";
+		out.new_personne = "";
+	</tag>
 	<one-of>
 		<item>modifier</item>
 		<item>changer</item>
