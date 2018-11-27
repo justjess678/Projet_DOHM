@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ATTENTION : UTF-8 = PAS DE CARACTERES ACCENTUES -->
+<!-- si PB message : Invalid UTF-8 character --> 
+
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Gestion confirmation"/>
+<meta name="author" content="Kevin CORTACERO"/>
+<meta name="copyright" content="3ASRI"/>
+
+	<form id="ask_action">
+		<grammar src="grammar.grxml#manage_agenda"/>
+		<initial name="mixed">
+		
+			Vous etes a present connecte, que souhaitez-vous faire?
+			<nomatch>
+				Je n'ai pas compris, veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv...
+			</nomatch>
+			<nomatch count="2">
+				Je suis desole, je ne comprends toujours pas, avançons pas a pas! :)
+				<assign name="mixed" expr="true"/>
+				<reprompt/>
+			</nomatch>
+			<help>
+				Vous pouvez:
+				- voir vos rdv
+				- prendre rdv
+				- deplacer un rdv
+				- annuler un rdv
+			</help>
+		</initial>
+	</form>
+	
+</vxml>

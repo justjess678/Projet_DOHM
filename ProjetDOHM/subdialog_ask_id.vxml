@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ATTENTION : UTF-8 = PAS DE CARACTERES ACCENTUES -->
+<!-- si PB message : Invalid UTF-8 character --> 
+
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Gestion confirmation"/>
+<meta name="author" content="Kevin CORTACERO"/>
+<meta name="copyright" content="3ASRI"/>
+
+	<form id="ask_id">
+		<var name="message_confirm" />
+		<script>
+		   <!-- exemple de gestion de la date au format Ecmascript --> 
+		   <!-- Date courante -->
+			var now = new Date(2018, 11, 27, 8, 30, 0, 0);
+		   <!-- Valeur de la date fournie par l'utilisateur -->
+			var date_choisie = new Date();
+		   <!-- Activation/desactivation du mode TRACE -->
+			var mode_trace ="false";
+		</script>
+	
+		<block>
+			Bienvenue sur le service de gestion de votre agenda. 
+			Aujourd'hui nous sommes le <value expr="now.toString()" />
+			<value expr="now.valueOf()" />
+		</block>
+		
+		<field name="num_abonne">
+			<prompt> Quel est votre numero d'abonne ? </prompt>
+			<grammar src="grammaire_num_ab_v2.grxml" type="application/srgs+xml"/>
+			<help> Renseignez votre numero d'abonne, il doit etre inferieur a deux mille cinq cents </help>
+			<noinput> Je n'ai pas entendu. Pouriez-vous me preciser votre numero d'abonne ? </noinput>
+			<nomatch> Je n'ai pas compris. Pouriez-vous me donner votre numero d'abonne s'il vous plait ? </nomatch>
+			<filled>
+				<if cond="num_abonne.nb &lt;= 2500 &amp;&amp; num_abonne.nb  >= 1">
+					Votre numero d'abonne est le <value expr="num_abonne.text" /> 
+					<if cond="mode_trace=='True'">
+						TRACE VALEUR  <value expr="num_abonne.nb" />
+					</if>
+				<else/>
+					<clear namelist= "num_abonne"/>
+				</if>
+		  </filled>
+		</field>
+		
+		<subdialog name="confirm1" src="subdialog_confirmation.vxml">
+			<filled>
+				<if cond="confirm1.confirm_input=='True'">
+					<assign name="message_confirm" expr="'TRACE num_abonne confirme'" />
+				<else/>
+					<assign name="message_confirm" expr="'TRACE num_abonne confirme'" />
+					<clear namelist="num_abonne confirm1" />
+				</if>
+			   <if cond="mode_trace=='True'">
+				 TRACE Reponse <value expr="message_confirm" />
+			   </if>
+		   </filled>
+		</subdialog>
+	</form>
+	
+</vxml>
