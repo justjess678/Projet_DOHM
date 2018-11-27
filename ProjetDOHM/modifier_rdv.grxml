@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar version="1.0" root="modif" xml:lang="fr">
+<grammar version="1.0" root="modifier" xml:lang="en">
 
 <meta name="description" content="grammar pour modifier un rdv"/>
 <meta name="author" content="Jessica Chambers"/>
 <meta name="copyright" content="free for any purpose"/>
 
-<rule id="modif" scope="public">
+<rule id="modifier" scope="public">
 	<tag>
-		out.date = "";
-		out.heure = "";
-		out.lieu = "";
+		out.new_lieu = "";
+		out.new_sujet = "";
+		out.new_personne = "";
 	</tag>
+	<one-of>
+		<item>modifier</item>
+		<item>changer</item>
+		<item>mettre a jour</item>
+	</one-of>
+	
+	<item repeat="0-1">un</item>
+	<item>rendez-vous</item>
 	<item repeat="1-">
-		<!--elements for identification of rdv-->
 		<one-of>
-			<!--new values of rdv-->
-			<item repeat="0-1">
-				<ruleref uri="#new_date"/>
-				<tag>out.date = rules.new_date</tag>
+			<!--elements for identification of rdv-->
+			<item>
+				<item repeat="0-1">le</item>
+				<ruleref uri="#date"/>
+				<tag>out.date = rules.date</tag>
 			</item>
-			<item repeat="0-1">
-				<ruleref uri="#new_heure"/>
-				<tag>out.heure = rules.new_heure</tag>
+			<item>
+				<item repeat="0-1">a</item>
+				<ruleref uri="#heure"/>
+				<tag>out.heure = rules.heure</tag>
 			</item>
-			<item repeat="0-1">
+			<item>
+				<item repeat="0-1">a</item>
 				<ruleref uri="#new_lieu"/>
-				<tag>out.lieu = rules.new_lieu</tag>
+				<tag>out.new_lieu = rules.new_lieu</tag>
+			</item>
+			<item>
+				<item repeat="0-1">sur</item>
+				<ruleref uri="#new_sujet"/>
+				<tag>out.new_sujet = rules.new_sujet</tag>
+			</item>
+			<item>
+				<item repeat="0-1">avec</item>
+				<ruleref uri="#new_personne"/>
+				<tag>out.new_personne = rules.new_personne</tag>
 			</item>
 		</one-of>
 	</item>
-	<!-- SQL output
-"UPDATE rdv
-SET date = new_date, heure = new_heure, lieu = new_lieu
-WHERE date = date AND heure = heure;"
--->
-
 </rule>
 
-<!--Modification-->
-
-<rule id="new_date" scope="public">
+<rule id="date">
 	<tag> out.date = new Object; </tag>
 		<item>
 			<ruleref uri="grammaire_dates_v3.grxml#Date" />
@@ -50,63 +62,41 @@ WHERE date = date AND heure = heure;"
 		</item>
 </rule>
 
-<rule id="new_heure" scope="public">
-	<tag> out.heure = new Object; </tag>
+
+<rule id="heure">
+	<tag> out.horaire = new Object; </tag>
 		<item>
 			<ruleref uri="horaire.grxml#Horaire" />
-			<tag> 	out.heure.heure = rules.Horaire.H;
-					out.heure.minute = rules.Horaire.MN;
+			<tag> 	out.horaire.H = rules.Horaire.H;
+					out.horaire.MN = rules.Horaire.MN;
+					out.horaire.NB_MN = rules.Horaire.NB_MN;
 			</tag>
 		</item>
 </rule>
 
-<rule id="new_lieu" scope="public">
+<rule id="new_lieu">
 	<item>
 		<ruleref uri="grammaire_lieu.grxml#lieu" />
-		<tag> out.lieu = rules.lieu.text;	</tag>
+		<tag> out.new_lieu = rules.lieu.text; </tag>
 	</item>
 </rule>
 
+<rule id="new_sujet">
+	<one-of>
+	    <item>travail</item>
+	    <item>famille</item>
+	    <item>sante</item>
+	    <item>autre</item>
+	</one-of>
+</rule>
+
+<rule id="new_personne">
+	<one-of>
+	    <item>M Dupont</item>
+	    <item>Maman</item>
+	    <item>Dr Jean</item>
+	    <item>Simon</item>
+	</one-of>
+</rule>
+
 </grammar>
-
-<!-- Example output - any, all or none of the options can be used. If they remain unused they return ""
-(onze heures le dix mai a Toulouse)
-Semantic result: {
-  date: {
-    date: {
-      jour: 10,
-      mois: 4,
-      annee: 0
-    }
-  },
-  heure: {
-    heure: {
-      heure: 11,
-      minute: 0
-    }
-  },
-  lieu: {
-    lieu: "Toulouse"
-  }
-}
-
-(le dix mai a Toulouse)
-Semantic result: {
-  date: {
-    date: {
-      jour: 10,
-      mois: 4,
-      annee: 0
-    }
-  },
-  heure: {
-    heure: {
-      heure: 11,
-      minute: 0
-    }
-  },
-  lieu: {
-    lieu: "Toulouse"
-  }
-}
--->
