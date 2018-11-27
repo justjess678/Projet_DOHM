@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Pizza ordering"/>
+<meta name="author" content="OptimSys, s.r.o., Czech Republic (http://www.optimsys.cz)"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<link event="help">
+  <grammar root="main">
+    <rule id="main" scope="public">
+      <item repeat="0-1"> SVP </item>
+      <item repeat="0-1"> j'ai besoin d' </item>
+      aide
+      <item repeat="0-1"> je n'y arrive pas </item>
+    </rule>
+  </grammar>
+</link>
+
+<form id="start">
+  <var name="summarization"/>
+
+  <nomatch>
+    <prompt> Je ne comprends pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="2">
+    <prompt> Je suis desole, je ne comprends toujours pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="4">
+    <prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
+    <exit/>
+  </nomatch>
+
+  <help>
+    Desole, aucune aide n'est disponible.
+  </help>
+
+  <grammar src="ajouter.grxml"/>
+
+  <initial name="mixed">
+    Voici l'interface d'ajout de rendez-vous.
+    <nomatch>
+      Je n'ai pas compris. S'il vous plait veuillez specifier la date, l'heure, le lieu
+	  et l'objet du rendez-vous.  
+    </nomatch>
+    <nomatch count="2">
+      Je suis desole, je n'ai toujours pas compris. Je vais vous demander les informations une par une.
+      <assign name="mixed" expr="true"/>
+      <reprompt/>
+    </nomatch>
+    <help>
+	  Vous pouvez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
+    </help>
+  </initial>
+
+  <filled mode="any" namelist="date heure lieu objet">
+    <assign name="summarization" expr="'Vous avez ajouter un rendez-vous le .... '"/>
+  </filled>
+
+  <field name="date" slot="ajouter.date">
+    Quel jour souhaitez-vous prendre le rendez-vous ? 
+    <grammar src="ajouter.grxml#date"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez la date du rendez-vous.
+    </help>
+    <filled>
+      <assign name="summarization" expr="summarization + date + ' '"/>
+    </filled>
+  </field>
+
+  <field name="heure" slot="ajouter.heure">
+    A quelle heure souhaitez-vous prendre le rendez-vous ? 
+    <grammar src="ajouter.grxml#heure"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez l'horaire du rendez-vous.
+    </help>
+    <filled>
+      <assign name="summarization" expr="summarization + heure + ' '"/>
+    </filled>
+  </field>
+
+  
+  
+  <filled mode="any" namelist="date heure lieu objet">
+    <assign name="summarization" expr="summarization + 'ajouter '"/>
+  </filled>
+
+  
+  
+  <field name="lieu" slot="ajouter.lieu">
+    Quel est le lieu du rendez-vous ? 
+    <grammar src="ajouter.grxml#lieu"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer le lieu du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez le lieu du rendez-vous.
+    </help>
+    <filled>
+      <assign name="summarization" expr="summarization + lieu + ' '"/>
+    </filled>
+  </field>
+  
+   <field name="objet" slot="ajouter.objet">
+    Quel est l'objet du rendez-vous ? 
+    <grammar src="ajouter.grxml#objet"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer l'objet du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez l'objet du rendez-vous.
+    </help>
+    <filled>
+      <assign name="summarization" expr="summarization + objet + ' '"/>
+    </filled>
+  </field>
+
+
+  <filled mode="any" namelist="date heure lieu objet">
+    <prompt>
+      <value expr="summarization"/>
+    </prompt>
+  </filled>
+
+  <block>
+    <prompt>
+      Thank you for your order. You ordered <value expr="summarization"/>
+    </prompt>
+  </block>
+  
+</form>
+
+</vxml>
