@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Deplacement d'un rdv"/>
+<meta name="author" content="Jessica Chambers"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<form id="deplacer_rdv">
+  	<var name="new_rdv"/>
+
+	<nomatch>
+		<prompt> Je ne vous ai pas compris. </prompt>
+		<reprompt/>
+	</nomatch>
+	<nomatch count="3">
+		<prompt> Je ne vous ai toujours pas compris. Celle-ci est votre dernière tentative. </prompt>
+		<reprompt/>
+	</nomatch>
+	<nomatch count="4">
+		<prompt> Pardon, je ne vous ai toujours pas compris. Je laisse tomber. Au revoir. </prompt>
+		<exit/>
+	</nomatch>
+
+	<help>
+		Desole, aucune aide n'est disponible.
+	</help>
+
+	<grammar src="deplacer_rdv.grxml"/>
+
+	<!-- we're assuming that the main program asked for the current date the meeting is planned at, so here we just want the replacement date/location -->
+
+	<initial name="mixed">
+	Veuillez donner les nouveaux détails du rendez-vous.
+	<nomatch>
+	  Je ne vous ai pas compris. Veuillez spécifier la nouvelle heure et/ou date du rendez-vous.
+	</nomatch>
+	<nomatch count="2">
+	  Pardon, je ne vous ai toujours pas compris. Je vous demanderai les informations element par element.
+	  <assign name="mixed" expr="true"/>
+	  <reprompt/>
+	</nomatch>
+	<help>
+	  Vous pouvez modifier la date et/ou l'heure du rendez-vous.
+	</help>
+  </initial>
+
+
+  <filled mode="any" namelist="new_date new_heure">
+    <assign name="new_rdv" expr="'J'ai compris '"/>
+  </filled>
+
+
+  <field name="new_date" slot="rdv.new_date">
+    Voulez vous modifier la date?
+    <grammar src="deplacer_rdv.grxml#set_date"/>
+    <nomatch>
+      je ne vous ai pas compris, veuillez me donner la nouvelle date s'il y en a une.
+    </nomatch>
+    <help>
+      Donner la nouvelle date du rendez-vous s'il y en a une.
+    </help>
+    <filled>
+      <assign name="new_date" expr="new_date + ' '"/>
+    </filled>
+  </field>

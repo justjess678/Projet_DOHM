@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar version="1.0" root="deplacer" xml:lang="fr">
+
+<meta name="description" content="grammar pour deplacer un rdv"/>
+<meta name="author" content="Jessica Chambers"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<rule id="deplacer" scope="public">
+	<tag>
+		out.date = "";
+		out.heure = "";
+	</tag>
+	<item repeat="1-">
+		<!--elements for identification of rdv-->
+		<one-of>
+			<!--new values of rdv-->
+			 <item>
+				<item repeat="0-1"> du </item>
+				<ruleref uri="#date"/>
+				<item repeat="0-1"> au </item>
+				<tag>
+				  if (typeof out.dates.date != "object") out.dates.date = new Array;
+				  out.dates.date.push (rules.date);
+				</tag>
+			</item>
+			<item repeat="0-1">
+				<ruleref uri="#new_heure"/>
+				<tag>out.heure = rules.new_heure</tag>
+			</item>
+		</one-of>
+	</item>
+</rule>
+
+<!--Deplacement-->
+
+<rule id="set_date" scope="public">
+  <tag> out.dates = new Array; </tag>
+  <item repeat="1-2">
+	<item repeat="0-1"> du </item>
+	<ruleref uri="#date"/>
+	<item repeat="0-1"> au </item>
+	<tag> out.push(rules.date); </tag>
+  </item>
+</rule>
+
+<rule id="date" scope="public">
+	<tag> out.date = new Object; </tag>
+		<item>
+			<ruleref uri="grammaire_dates_v3.grxml#Date" />
+			<tag> 	out.date.jour = rules.Date.nb_jour;
+					out.date.mois = rules.Date.num_mois;
+					out.date.annee = rules.Date.nb_annee;
+			</tag>
+		</item>
+</rule>
+
+<rule id="new_heure" scope="public">
+	<tag> out.heure = new Object; </tag>
+		<item>
+			<ruleref uri="horaire.grxml#Horaire" />
+			<tag> 	out.heure.heure = rules.Horaire.H;
+					out.heure.minute = rules.Horaire.MN;
+			</tag>
+		</item>
+</rule>
+
+</grammar>
+
+<!-- Example output - any, all or none of the options can be used. If they remain unused they return ""
+(onze heures le dix mai)
+Semantic result: {
+  date: {
+	date: {
+	  jour: 10,
+	  mois: 4,
+	  annee: 0
+	}
+  },
+  heure: {
+	heure: {
+	  heure: 11,
+	  minute: 0
+	}
+  }
+}
+
+(le dix mai)
+Semantic result: {
+  date: {
+	date: {
+	  jour: 10,
+	  mois: 4,
+	  annee: 0
+	}
+  },
+  heure: ""
+}
+-->
+<!-- example SQL output
+"UPDATE rdv
+SET date = new_date, heure = new_heure
+WHERE date = date AND heure = heure;"
+-->
