@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<grammar version="1.0" root="personne" xml:lang="fr">
+
+<meta name="description" content="Personne"/>
+<meta name="author" content="Pierre Mespoulet"/>
+<meta name="copyright" content="IUP SI M1"/>
+
+<rule id="personne" scope="public">
+  <item repeat="0-1"> <ruleref uri="#bruit" /> </item>
+  <item repeat="0-1"> <ruleref uri="#titre" />  <tag> out.titre = rules.titre.titre  </tag></item>
+  <item> <ruleref uri="#personne" /> <tag> out.nom = rules.personne.nom </tag> </item>
+</rule> 
+
+<rule id="bruit" >
+    <item> avec </item>
+</rule>
+
+<rule id="titre" >
+		<one-of>
+			<item> Monsieur   <tag> out.titre = meta.current().text  </tag></item>
+			<item> Madame   <tag> out.titre = meta.current().text </tag></item>
+		</one-of>
+</rule>
+
+<rule id="personne" >
+  <one-of>
+    <item> <item repeat="0-1"> John </item> Rambo <tag> out.nom = meta.current().text </tag> </item>
+	<item> <item repeat="0-1"> James </item> Bond <tag> out.nom = meta.current().text </tag> </item>
+	<item> <item repeat="0-1"> Bob </item> Marley <tag> out.nom = meta.current().text </tag> </item>
+  </one-of>
+</rule>
+
+</grammar>

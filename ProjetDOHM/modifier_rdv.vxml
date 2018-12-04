@@ -13,7 +13,7 @@
 		<reprompt/>
 	</nomatch>
 	<nomatch count="3">
-		<prompt> Je ne vous ai toujours pas compris. Celle-ci est votre dernière tentative. </prompt>
+		<prompt> Je ne vous ai toujours pas compris. Celle-ci est votre derniere tentative. </prompt>
 		<reprompt/>
 	</nomatch>
 	<nomatch count="4">
@@ -30,9 +30,9 @@
 	<!-- we're assuming that the main program asked for the current date the meeting is planned at, so here we just want the replacement date/location -->
 
 	<initial name="mixed">
-	Veuillez donner les nouveaux détails du rendez-vous.
+	Veuillez donner les nouveaux details du rendez-vous.
 	<nomatch>
-	  Je ne vous ai pas compris. Veuillez spécifier le nouveau lieu du / sujet du / personne concernee par le rendez-vous.
+	  Je ne vous ai pas compris. Veuillez specifier le nouveau lieu du / sujet du / personne concernee par le rendez-vous.
 	</nomatch>
 	<nomatch count="2">
 	  Pardon, je ne vous ai toujours pas compris. Je vous demanderai les informations element par element.
@@ -79,7 +79,7 @@
   </field>
 
   <field name="new_personne" slot="rdv.new_personne">
-    Si vous voulez modifier la personne conernee par le rendez-vous
+    Si vous voulez modifier la personne concernee par le rendez-vous
     <grammar src="modifier_rdv.grxml#new_personne"/>
     <nomatch>
       Je ne vous ai pas compris. Veuillez me donner la personne conernee par le rendez-vous.
@@ -91,3 +91,6 @@
       <assign name="result" expr="result + new_personne + ' '"/>
     </filled>
   </field>
+  </form>
+
+</vxml>
