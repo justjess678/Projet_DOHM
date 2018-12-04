@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<grammar version="1.0" root="ajouter" xml:lang="en">
+<grammar version="1.0" root="ajouter" xml:lang="fr">
 
 <meta name="description" content="grammar pour modifier un rdv"/>
 <meta name="author" content="Pierre Mespoulet"/>
 <meta name="copyright" content="free for any purpose"/>
 
 <rule id="ajouter" scope="public">
-	<one-of>
-		<item>ajouter</item>
-		<item>prendre</item>
-		<item>rajouter</item>
-		<item>creer</item>
-	</one-of>
+	<item repeat="0-1">
+		<one-of>
+			<item>ajouter</item>
+			<item>prendre</item>
+			<item>rajouter</item>
+			<item>creer</item>
+		</one-of>
+	</item>
 	
 	<item repeat="0-1">un</item>
-	<item>rendez-vous</item>
+	<item repeat="0-1">rendez-vous</item>
+	<tag> out.rdv = new Object; </tag>	
 	<item repeat="1-">
 		<one-of>
 			<!--elements for identification of rdv-->
 			<item>
-				<ruleref uri="#date"/>
-				<tag>out.date = rules.date</tag>
+				<ruleref uri="#dateinfo"/>
+				<tag>out.rdv.date = rules.dateinfo.date</tag>
 			</item>
 			<item>
 				<ruleref uri="#heure"/>
-				<tag>out.heure = rules.heure</tag>
+				<tag>out.rdv.heure = rules.heure.horaire</tag>
 			</item>
 			
 			<item>
 				<ruleref uri="#lieu"/>
-				<tag>out.lieu = rules.lieu </tag>
+				<tag>out.rdv.lieu = rules.lieu.ville </tag>
 			</item>
 			
 			<item>
 				<item repeat="0-1">pour un</item>
-				<ruleref uri="#objet"/>
-				<tag>out.objet = rules.objet </tag>
+				<ruleref uri="#objetinfo"/>
+				<tag>out.rdv.objet = rules.objetinfo.objet </tag>
+			</item>
+			
+			<item>
+				<item repeat="0-1">avec</item>
+				<ruleref uri="#personneinfo"/>
+				<tag>out.rdv.personne = rules.personneinfo.personne </tag>
 			</item>
 			
 		</one-of>
@@ -44,33 +53,30 @@
 
 
 
-
-
-
-<rule id="date">
+<rule id="dateinfo">
 	<item repeat="0-1">le</item>
 	<tag> out.date = new Object; </tag>
-		<item>
-			<ruleref uri="grammaire_dates_v3.grxml#Date" />
-			<tag> 	out.date.jour = rules.Date.nb_jour;
-					out.date.mois = rules.Date.num_mois;
-					out.date.annee = rules.Date.nb_annee;
-			</tag>
-		</item>
-		<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+	<item>
+		<ruleref uri="grammaire_dates_v3.grxml#Date" />
+		<tag> 	out.date.jour = rules.Date.nb_jour;
+				out.date.mois = rules.Date.num_mois;
+				out.date.annee = rules.Date.nb_annee;
+		</tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
 
 <rule id="heure">
 	<item repeat="0-1">a</item>
 	<tag> out.horaire = new Object; </tag>
-		<item>
-			<ruleref uri="horaire.grxml#Horaire" />
-			<tag> 	out.horaire.H = rules.Horaire.H;
-					out.horaire.MN = rules.Horaire.MN;
-					out.horaire.NB_MN = rules.Horaire.NB_MN;
-			</tag>
-		</item>
-		<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+	<item>
+		<ruleref uri="horaire.grxml#Horaire" />
+		<tag> 	out.horaire.H = rules.Horaire.H;
+				out.horaire.MN = rules.Horaire.MN;
+				out.horaire.NB_MN = rules.Horaire.NB_MN;
+		</tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
 
 <rule id="lieu">
@@ -81,10 +87,21 @@
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
 
-<rule id="objet">
+<rule id="objetinfo">
 	<item>
 		<ruleref uri="grammaire_objet.grxml#objet" />
 		<tag> out.objet = rules.objet.text; </tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+</rule>
+
+<rule id="personneinfo">
+	<tag> out.personne = new Object; </tag>
+	<item>
+		<ruleref uri="grammaire_personne.grxml#personne" />
+		<tag> 	out.nom = rules.personne.nom;
+				out.titre = rules.personne.titre;
+		</tag>
 	</item>
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>

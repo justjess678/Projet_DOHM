@@ -39,7 +39,7 @@
   <grammar src="ajouter.grxml"/>
 
   <initial name="mixed">
-    Voici l'interface d'ajout de rendez-vous.
+    Voici l'interface d'ajout de rendez-vous. Veuillez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
     <nomatch>
       Je n'ai pas compris. S'il vous plait veuillez specifier la date, l'heure, le lieu
 	  et l'objet du rendez-vous.  
