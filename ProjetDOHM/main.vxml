@@ -4,78 +4,75 @@
 
 <vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
 
-<meta name="description" content="Gestion agenda version 0"/>
-<meta name="author" content="Pierre MESPOULET"/>
-<meta name="copyright" content="IUP SI M2 Pro Dialogue"/>
+	<meta name="description" content="Gestion agenda version 0"/>
+	<meta name="author" content="Pierre MESPOULET"/>
+	<meta name="copyright" content="IUP SI M2 Pro Dialogue"/>
 
-<!-- Version de base : gestion de dialogue et comprehension -->
-<!-- Demande et verification du numero d'abonne -->
+	<!-- Version de base : gestion de dialogue et comprehension -->
+	<!-- Demande et verification du numero d'abonne -->
 
-<!-- Activation de la grammaire permettant la detection des -->
-<!-- demandes d'aide formulees par l'utilisateur            -->
+	<!-- Activation de la grammaire permettant la detection des -->
+	<!-- demandes d'aide formulees par l'utilisateur            -->
 
-<catch event="exit">
-  <prompt> La prise de rendez-vous est annulee, a bientot</prompt>
-  <exit/>
-</catch>
+	<catch event="exit">
+	  <prompt> La prise de rendez-vous est annulee, a bientot</prompt>
+	  <exit/>
+	</catch>
 
-<link event="exit">
-  <grammar root="main">
-    <rule id="main" scope="public">
-      <one-of>
-        <item> quitter </item>
-        <item> fermer </item>
-		<item> arreter </item>
-		<item> exit </item>
-		<item> quit </item>
-		<item> stop </item>
-      </one-of>
-    </rule>
-  </grammar>
-</link> 
+	<link event="exit">
+	  <grammar root="main">
+	    <rule id="main" scope="public">
+	      <one-of>
+	        <item> quitter </item>
+	        <item> fermer </item>
+			<item> arreter </item>
+			<item> exit </item>
+			<item> quit </item>
+			<item> stop </item>
+	      </one-of>
+	    </rule>
+	  </grammar>
+	</link> 
 
-<link event="help">
-<grammar src="grammaire_aide.grxml" type="application/srgs+xml" />
-</link>
+	<link event="help">
+		<grammar src="grammaire_aide.grxml" type="application/srgs+xml" />
+	</link>
 
 
-<form id="agenda">
+	<form id="agenda">
 
-	<nomatch>
-	    <prompt> I didn't understand you. </prompt>
-	    <reprompt/>
-    </nomatch>
-	    <nomatch count="3">
-	    <prompt> I didn't understand you again. This is your last chance. </prompt>
-	    <reprompt/>
-    </nomatch>
-    <nomatch count="4">
-	    <prompt> Sorry, I didn't understand you again. I am giving up. Bye. </prompt>
-	    <exit/>
-    </nomatch>
+		<nomatch>
+		    <prompt> I didn't understand you. </prompt>
+		    <reprompt/>
+	    </nomatch>
+		    <nomatch count="3">
+		    <prompt> I didn't understand you again. This is your last chance. </prompt>
+		    <reprompt/>
+	    </nomatch>
+	    <nomatch count="4">
+		    <prompt> Sorry, I didn't understand you again. I am giving up. Bye. </prompt>
+		    <exit/>
+	    </nomatch>
 
-    <help>
-    	Sorry, no help is available.
-    </help>
+	    <help>
+	    	Sorry, no help is available.
+	    </help>
+		
+		<subdialog name="user_id" src="subdialog_ask_id.vxml">
 
-	<var name="reponse" />
-	<var name="message_confirm" />
+		</subdialog>
+		<subdialog name="ask_action" src="subdialog_action.vxml">
 
-	<subdialog name="ask_action" src="subdialog_action.vxml"/>
-	<subdialog name="user_id" src="subdialog_ask_id.vxml"/>	
-	<!--<subdialog name="ask_action" src="subdialog_action.vxml"/>	-->
-	
-	
-</form>
+		</subdialog>
+
+		
+		<subdialog name="ajouter" src="subdialog_action.vxml" cond="ask_action=='ajouter'"/>
+		<subdialog name="deplacer" src="subdialog_action.vxml" cond="ask_action=='deplacer'"/>
+		<subdialog name="annuler" src="subdialog_action.vxml" cond="ask_action=='annuler'"/>
+		<subdialog name="consulter" src="subdialog_action.vxml" cond="ask_action=='consulter'"/>
+
+	</form>
 </vxml>
-
-	
-	
-	
-	
-	
-
-
 
 	<!--
 	<field name = "date">

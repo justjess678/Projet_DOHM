@@ -55,6 +55,7 @@
 			   <if cond="mode_trace=='True'">
 				 TRACE Reponse <value expr="message_confirm" />
 			   </if>
+			   <return namelist="num_abonne"/>
 		   </filled>
 		</subdialog>
 	</form>

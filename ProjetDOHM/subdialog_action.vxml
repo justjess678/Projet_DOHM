@@ -7,28 +7,37 @@
 <meta name="description" content="Gestion confirmation"/>
 <meta name="author" content="Kevin CORTACERO"/>
 <meta name="copyright" content="3ASRI"/>
+	
+	<var name="message_confirm" />
 
 	<form id="ask_action">
-		<grammar src="grammar.grxml#manage_agenda"/>
-		<initial name="mixed">
-		
-			Vous etes a present connecte, que souhaitez-vous faire?
+		<field name="action">
+			<prompt> Vous etes a present connecte, que souhaitez-vous faire? </prompt>
+			<grammar src="grammar.grxml#action"/>
+			<help>
+				Veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv...
+			</help>
+			<noinput> Je n'ai pas entendu. veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv... </noinput>
 			<nomatch>
 				Je n'ai pas compris, veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv...
 			</nomatch>
-			<nomatch count="2">
-				Je suis desole, je ne comprends toujours pas, avançons pas a pas! :)
-				<assign name="mixed" expr="true"/>
-				<reprompt/>
-			</nomatch>
-			<help>
-				Vous pouvez:
-				- voir vos rdv
-				- prendre rdv
-				- deplacer un rdv
-				- annuler un rdv
-			</help>
-		</initial>
+			<filled>
+				Vous souhaitez <value expr="action.text" />
+		    </filled>
+		</field>
+		
+		<subdialog name="confirm" src="subdialog_confirmation.vxml">
+			<filled>
+				<if cond="confirm.confirm_input=='True'">
+					<assign name="message_confirm" expr="'TRACE action confirme'" />
+				<else/>
+					<assign name="message_confirm" expr="'TRACE action confirme'" />
+					<clear namelist="action confirm" />
+				</if>
+				 TRACE Reponse <value expr="message_confirm" />
+				 <return namelist="action"/>
+		   </filled>
+		</subdialog>
 	</form>
 	
 </vxml>
