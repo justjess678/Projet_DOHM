@@ -7,13 +7,14 @@
 
 <form id="deplacer_rdv">
   	<var name="new_rdv"/>
+  	<var name="summarization"/>
 
 	<nomatch>
 		<prompt> Je ne vous ai pas compris. </prompt>
 		<reprompt/>
 	</nomatch>
 	<nomatch count="3">
-		<prompt> Je ne vous ai toujours pas compris. Celle-ci est votre dernière tentative. </prompt>
+		<prompt> Je ne vous ai toujours pas compris. Celle-ci est votre derniere tentative. </prompt>
 		<reprompt/>
 	</nomatch>
 	<nomatch count="4">
@@ -27,12 +28,12 @@
 
 	<grammar src="deplacer_rdv.grxml"/>
 
-	<!-- we're assuming that the main program asked for the current date the meeting is planned at, so here we just want the replacement date/location -->
+	<!-- the first date in the returned array is the original date, ditto for the time-->
 
 	<initial name="mixed">
-	Veuillez donner les nouveaux détails du rendez-vous.
+	Veuillez donner les details du rendez-vous a changer.
 	<nomatch>
-	  Je ne vous ai pas compris. Veuillez spécifier la nouvelle heure et/ou date du rendez-vous.
+	  Je ne vous ai pas compris. Veuillez specifier la nouvelle heure et/ou date du rendez-vous.
 	</nomatch>
 	<nomatch count="2">
 	  Pardon, je ne vous ai toujours pas compris. Je vous demanderai les informations element par element.
@@ -45,21 +46,77 @@
   </initial>
 
 
-  <filled mode="any" namelist="new_date new_heure">
-    <assign name="new_rdv" expr="'J'ai compris '"/>
+  <filled mode="any" namelist="old_date old_heure new_date new_heure">
+	<assign name="new_rdv" expr="'new rdv details '"/>
   </filled>
 
+  <field name="old_date" slot="rdv.old_date">
+	Quelle est la date actuelle du rendez-vous a modifier?
+	<grammar src="deplacer_rdv.grxml#set_date"/>
+	<nomatch>
+	  je ne vous ai pas compris, veuillez me donner la date du rendez-vous a modifier.
+	</nomatch>
+	<help>
+	  Donner la date du rendez-vous a modifier.
+	</help>
+	<filled>
+	  <assign name="old_date" expr="old_date + ' '"/>
+	</filled>
+  </field>
 
   <field name="new_date" slot="rdv.new_date">
-    Voulez vous modifier la date?
-    <grammar src="deplacer_rdv.grxml#set_date"/>
-    <nomatch>
-      je ne vous ai pas compris, veuillez me donner la nouvelle date s'il y en a une.
-    </nomatch>
-    <help>
-      Donner la nouvelle date du rendez-vous s'il y en a une.
-    </help>
-    <filled>
-      <assign name="new_date" expr="new_date + ' '"/>
-    </filled>
+	Voulez vous modifier la date?
+	<grammar src="deplacer_rdv.grxml#set_date"/>
+	<nomatch>
+	  je ne vous ai pas compris, veuillez me donner la nouvelle date s'il y en a une.
+	</nomatch>
+	<help>
+	  Donner la nouvelle date du rendez-vous s'il y en a une.
+	</help>
+	<filled>
+	  <assign name="new_date" expr="new_date + ' '"/>
+	</filled>
   </field>
+
+  <field name="old_heure" slot="rdv.old_heure">
+	Quelle est l'heure actuelle du rendez-vous a modifier?
+	<grammar src="deplacer_rdv.grxml#set_heure"/>
+	<nomatch>
+	  je ne vous ai pas compris, veuillez me donner l'heure du rendez-vous a modifier.
+	</nomatch>
+	<help>
+	  Donner l'heure du rendez-vous a modifier.
+	</help>
+	<filled>
+	  <assign name="old_heure" expr="old_heure + ' '"/>
+	</filled>
+  </field>
+
+  <field name="new_heure" slot="rdv.new_heure">
+	Voulez vous modifier l'heure du rendez-vous'?
+	<grammar src="deplacer_rdv.grxml#set_heure"/>
+	<nomatch>
+	  je ne vous ai pas compris, veuillez me donner la nouvelle heure s'il y en a une.
+	</nomatch>
+	<help>
+	  Donner la nouvelle heure du rendez-vous s'il y en a une.
+	</help>
+	<filled>
+	  <assign name="new_heure" expr="new_heure + ' '"/>
+	</filled>
+  </field>
+<block>
+	<script> <![CDATA[
+	  summarization = 'UPDATE rdv \nSET ';
+	  if(new_date != '') summarization += 'date  = ' + new_date + ' ';
+	  if(new_heure != '') summarization += ', heure  = ' + new_heure + ' ';
+	  summarization += '\nWHERE date = ' + old_date;
+	  if(old_heure != '') summarization += 'AND heure  = ' + old_heure + ' ';
+	]]> </script>
+	<prompt>
+	  SQL : <value expr="summarization"/>
+	</prompt>
+  </block>
+</form>
+
+</vxml>

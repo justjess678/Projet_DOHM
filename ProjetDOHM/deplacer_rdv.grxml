@@ -5,10 +5,44 @@
 <meta name="author" content="Jessica Chambers"/>
 <meta name="copyright" content="free for any purpose"/>
 
+<rule id="politesse1">
+  <item repeat="0-1"> s'il vous plait </item>
+  <item repeat="0-1">
+    <one-of>
+      <item> j'aimerais changer </item>
+      <item> j'aimerais modifier </item>
+      <item> j'aimerais deplacer </item>
+      <item> je veux changer </item>
+      <item> je veux modifier </item>
+      <item> je veux deplacer </item>
+      <item> je voudrais changer </item>
+      <item> je voudrais modifier </item>
+      <item> je voudrais deplacer </item>
+    </one-of>
+  </item>
+  <item repeat="0-1">
+  	<one-of>
+  		<item> le </item>
+  		<item> mon </item>
+  	</one-of>
+  </item>
+  <item repeat="0-1"> rendez-vous </item>
+</rule>
+
+<rule id="politesse2">
+  <item repeat="0-1">
+    <one-of>
+      <item> merci </item>
+      <item> s'il vous plait </item>
+    </one-of>
+  </item>
+</rule>
+
 <rule id="deplacer" scope="public">
 	<tag>
 		out.rdv = new Object;
 	</tag>
+	<ruleref uri="#politesse1"/>
 	<item repeat="1-">
 		<!--elements for identification of rdv-->
 		<one-of>
@@ -32,6 +66,7 @@
 			</item>
 		</one-of>
 	</item>
+	<ruleref uri="#politesse2"/>
 </rule>
 
 <!--Deplacement-->
@@ -39,15 +74,15 @@
 <rule id="set_date" scope="public">
   <tag> out = new Array; </tag>
   <item repeat="1-">
-	<item repeat="0-1"> with </item>
 	<ruleref uri="#date"/>
-	<item repeat="0-1"> and </item>
 	<tag> out.push(rules.date); </tag>
   </item>
 </rule>
 
 <rule id="date" scope="public">
 	<tag> out.date = new Object; </tag>
+	<item repeat="0-1"> oui </item>
+	<one-of>
 		<item>
 			<ruleref uri="grammaire_dates_v3.grxml#Date" />
 			<tag> 	out.date.jour = rules.Date.nb_jour;
@@ -55,27 +90,35 @@
 					out.date.annee = rules.Date.nb_annee;
 			</tag>
 		</item>
+		<item> non <tag> out.date = ''</tag></item>
+		<item> la meme <tag> out.date = ''</tag></item>
+	</one-of>
 </rule>
 
 
 <rule id="set_heure" scope="public">
   <tag> out = new Array; </tag>
   <item repeat="1-">
-	<item repeat="0-1"> with </item>
 	<ruleref uri="#heure"/>
-	<item repeat="0-1"> and </item>
 	<tag> out.push(rules.heure); </tag>
   </item>
 </rule>
 
 <rule id="heure" scope="public">
 	<tag> out.heure = new Object; </tag>
-		<item>
-			<ruleref uri="horaire.grxml#Horaire" />
-			<tag> 	out.heure.heure = rules.Horaire.H;
-					out.heure.minute = rules.Horaire.MN;
-			</tag>
-		</item>
+	<item repeat="0-1"> oui </item>
+	<item>
+		<one-of>
+			<item>
+				<ruleref uri="horaire.grxml#Horaire" />
+				<tag> 	out.heure.heure = rules.Horaire.H;
+						out.heure.minute = rules.Horaire.MN;
+				</tag>
+			</item>
+			<item> non <tag> out.heure = ''</tag></item>
+			<item> la meme <tag> out.heure = ''</tag></item>
+		</one-of>
+	</item>
 </rule>
 </grammar>
 
