@@ -7,6 +7,8 @@
 
 <form id="deplacer_rdv">
   	<var name="summarization"/>
+  	<var name="var_old_date"/>
+  	<var name="var_new_date"/>
 
 	<nomatch>
 		<prompt> Je ne vous ai pas compris. </prompt>
@@ -44,17 +46,18 @@
 	</help>
   </initial>
 
-
+  <!--
   <filled mode="any" namelist="rdv_old_date old_heure new_date new_heure">
-	<assign name="rdv_old_date" expr="rdv_old_date + ' '"/>
+	<assign name="var_old_date" expr="rdv_old_date + ' '"/>
 	<assign name="old_heure" expr="old_heure + ' '"/>
-	<assign name="new_date" expr="new_date + ' '"/>
+	<assign name="var_new_date" expr="new_date + ' '"/>
 	<assign name="new_heure" expr="new_heure + ' '"/>
   </filled>
+-->
 
-  <field name="rdv_old_date" slot="rdv.date">
+  <field name="rdv_old_date">
 	Quelle est la date actuelle du rendez-vous a modifier?
-	<grammar src="deplacer_rdv.grxml#set_date"/>
+	<grammar src="deplacer_rdv.grxml#date"/>
 	<nomatch>
 	  je ne vous ai pas compris, veuillez me donner la date du rendez-vous a modifier.
 	</nomatch>
@@ -62,13 +65,13 @@
 	  Donner la date du rendez-vous a modifier.
 	</help>
 	<filled>
-	  <assign name="rdv_old_date" expr="rdv_old_date + ' '"/>
+	  <assign name="var_old_date" expr="rdv_old_date.date"/>
 	</filled>
   </field>
 
-  <field name="new_date" slot="rdv.new_date">
+  <field name="new_date" >
 	Voulez vous modifier la date?
-	<grammar src="deplacer_rdv.grxml#set_date"/>
+	<grammar src="deplacer_rdv.grxml#date"/>
 	<nomatch>
 	  je ne vous ai pas compris, veuillez me donner la nouvelle date s'il y en a une.
 	</nomatch>
@@ -76,7 +79,7 @@
 	  Donner la nouvelle date du rendez-vous s'il y en a une.
 	</help>
 	<filled>
-	  <assign name="new_date" expr="new_date + ' '"/>
+	  <assign name="var_new_date" expr="new_date + ' '"/>
 	</filled>
   </field>
 
@@ -111,9 +114,9 @@
 <block>
 	<script> <![CDATA[
 	  summarization = 'UPDATE rdv \nSET ';
-	  if(new_date != '') summarization += 'date  = ' + new_date + ' ';
+	  if(new_date != '') summarization += 'date  = ' + var_new_date + ' ';
 	  if(new_heure != '') summarization += ', heure  = ' + new_heure + ' ';
-	  summarization += '\nWHERE date = ' + rdv_old_date;
+	  summarization += '\nWHERE date = ' + var_old_date;
 	  if(old_heure != '') summarization += 'AND heure  = ' + old_heure + ' ';
 	]]> </script>
 	<prompt>

@@ -70,13 +70,26 @@
 </rule>
 
 <!--Deplacement-->
+<!--
+<rule id="ordertoppings" scope="public">
+  <tag> out = new Array; </tag>
+  <ruleref uri="#politness1"/>
+  <item repeat="1-">
+    <item repeat="0-1"> with </item>
+    <ruleref uri="#topping"/>
+    <item repeat="0-1"> and </item>
+    <tag> out.push(rules.topping); </tag>
+  </item>
+  <ruleref uri="#politness2"/>
+</rule>
+-->
 
 <rule id="set_date" scope="public">
   <tag> out = new Array; </tag>
   <item repeat="0-1"> au </item>
   <item repeat="1-">
-	<ruleref uri="#date"/>
-	<tag> out.push(rules.date); </tag>
+  	<ruleref uri="#date"/>
+  	<tag> out.push(rules.date); </tag>
   </item>
 </rule>
 
@@ -86,7 +99,7 @@
 	<one-of>
 		<item>
 			<ruleref uri="grammaire_dates_v3.grxml#Date" />
-			<tag> 	out.date.jour = rules.Date.nb_jour;
+			<tag>out.date.jour = rules.Date.nb_jour;
 					out.date.mois = rules.Date.num_mois;
 					out.date.annee = rules.Date.nb_annee;
 			</tag>
