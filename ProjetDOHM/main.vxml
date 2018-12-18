@@ -19,6 +19,10 @@
 	  <exit/>
 	</catch>
 
+	<var name="var_action"/>
+	<var name="var_user_id"/>
+	<var name="sql_request"/>
+
 	<link event="exit">
 	  <grammar root="main">
 	    <rule id="main" scope="public">
@@ -59,17 +63,30 @@
 	    </help>
 		
 		<subdialog name="user_id" src="subdialog_ask_id.vxml">
-
+			<filled>
+				<assign name="var_user_id" expr="user_id.num_abonne.nb"/>
+			</filled>
 		</subdialog>
+
 		<subdialog name="ask_action" src="subdialog_action.vxml">
-
+			<filled>
+				<assign name="var_action" expr="ask_action.action.text"/>
+			</filled>
 		</subdialog>
-
 		
-		<subdialog name="ajouter" src="subdialog_action.vxml" cond="ask_action=='ajouter'"/>
+		<subdialog name="ajouter" src="ajouter.vxml" cond="var_action=='ajouter'">
+			<filled>
+				<assign name="sql_request" expr="ajouter.summarization"/>
+				<prompt>Souhaitez vous ajouter un autre rendez-vous? </prompt>
+				<!--<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>-->
+				
+			</filled>
+		</subdialog>
+			
 		<subdialog name="deplacer" src="subdialog_action.vxml" cond="ask_action=='deplacer'"/>
 		<subdialog name="annuler" src="subdialog_action.vxml" cond="ask_action=='annuler'"/>
 		<subdialog name="consulter" src="subdialog_action.vxml" cond="ask_action=='consulter'"/>
+		
 
 	</form>
 </vxml>

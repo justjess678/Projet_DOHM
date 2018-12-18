@@ -31,7 +31,7 @@
   </nomatch>
   <nomatch count="3">
     <prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
-    <exit/>
+    <return/>
   </nomatch>
 
   <help>
