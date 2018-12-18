@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
 
-<meta name="description" content="Pizza ordering"/>
-<meta name="author" content="OptimSys, s.r.o., Czech Republic (http://www.optimsys.cz)"/>
+<meta name="description" content="Modification de rdv"/>
+<meta name="author" content="Jessica Chambers"/>
 <meta name="copyright" content="free for any purpose"/>
 
 <link event="help">
@@ -63,10 +63,6 @@
     Vous pouvez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
     </help>
   </initial>
-
-  
- 
-  
   
   <field name="dateinfo" slot="rdv.date">
     Quel jour est le rendez-vous ? 
@@ -82,8 +78,6 @@
     </filled>
   </field>
 
-  
-  
   <field name="heure" slot="rdv.heure">
     A quelle heure est le rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#heure" type="application/srgs+xml"/>
@@ -98,12 +92,6 @@
     </filled>
   </field>
 
-  
-  
- 
-
-  
-  
   <field name="lieu" slot="rdv.lieu">
     Quel est le lieu du rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#lieu"  type="application/srgs+xml"/>
@@ -118,8 +106,6 @@
     </filled>
   </field>
   
-  
-  
    <field name="objetinfo" slot="rdv.objet">
     Quel est l'objet du rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#objetinfo"  type="application/srgs+xml"/>
@@ -133,8 +119,6 @@
       <assign name="var_objet" expr="objetinfo"/>
     </filled>
   </field>
-
-  
 
   <filled mode="any" namelist="dateinfo heure lieu objetinfo">
     <prompt>
