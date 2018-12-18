@@ -16,6 +16,8 @@
   </grammar>
 </link>
 
+
+
 <form id="start">
   <var name="summarization"/>
 
@@ -27,7 +29,7 @@
     <prompt> Je suis desole, je ne comprends toujours pas. </prompt>
     <reprompt/>
   </nomatch>
-  <nomatch count="4">
+  <nomatch count="3">
     <prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
     <exit/>
   </nomatch>
@@ -36,8 +38,12 @@
     Desole, aucune aide n'est disponible.
   </help>
 
-  <grammar src="ajouter.grxml"/>
+  
+  
+  <grammar src="ajouter.grxml"  type="application/srgs+xml"/>
 
+  
+  
   <initial name="mixed">
     Voici l'interface d'ajout de rendez-vous. Veuillez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
     <nomatch>
@@ -54,13 +60,13 @@
     </help>
   </initial>
 
-  <filled mode="any" namelist="date heure lieu objet">
-    <assign name="summarization" expr="'Vous avez ajouter un rendez-vous le .... '"/>
-  </filled>
-
-  <field name="date" slot="ajouter.date">
+  
+ 
+  
+  
+  <field name="dateinfo" slot="rdv.date">
     Quel jour souhaitez-vous prendre le rendez-vous ? 
-    <grammar src="ajouter.grxml#date"/>
+    <grammar src="ajouter.grxml#dateinfo"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
     </nomatch>
@@ -68,13 +74,15 @@
       S'il vous plait renseignez la date du rendez-vous.
     </help>
     <filled>
-      <assign name="summarization" expr="summarization + date + ' '"/>
+      <assign name="summarization" expr="summarization + dateinfo + ' '"/>
     </filled>
   </field>
 
-  <field name="heure" slot="ajouter.heure">
+  
+  
+  <field name="heure" slot="rdv.heure">
     A quelle heure souhaitez-vous prendre le rendez-vous ? 
-    <grammar src="ajouter.grxml#heure"/>
+    <grammar src="ajouter.grxml#heure" type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
     </nomatch>
@@ -88,15 +96,13 @@
 
   
   
-  <filled mode="any" namelist="date heure lieu objet">
-    <assign name="summarization" expr="summarization + 'ajouter '"/>
-  </filled>
+ 
 
   
   
-  <field name="lieu" slot="ajouter.lieu">
+  <field name="lieu" slot="rdv.lieu">
     Quel est le lieu du rendez-vous ? 
-    <grammar src="ajouter.grxml#lieu"/>
+    <grammar src="ajouter.grxml#lieu"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer le lieu du rendez-vous s'il vous plait. 
     </nomatch>
@@ -108,9 +114,11 @@
     </filled>
   </field>
   
-   <field name="objet" slot="ajouter.objet">
+  
+  
+   <field name="objetinfo" slot="rdv.objet">
     Quel est l'objet du rendez-vous ? 
-    <grammar src="ajouter.grxml#objet"/>
+    <grammar src="ajouter.grxml#objetinfo"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'objet du rendez-vous s'il vous plait. 
     </nomatch>
@@ -118,20 +126,23 @@
       S'il vous plait renseignez l'objet du rendez-vous.
     </help>
     <filled>
-      <assign name="summarization" expr="summarization + objet + ' '"/>
+      <assign name="summarization" expr="summarization + objetinfo + ' '"/>
     </filled>
   </field>
 
+  
 
-  <filled mode="any" namelist="date heure lieu objet">
+  <filled mode="any" namelist="dateinfo heure lieu objetinfo">
     <prompt>
       <value expr="summarization"/>
     </prompt>
   </filled>
 
+  
+  
   <block>
     <prompt>
-      Thank you for your order. You ordered <value expr="summarization"/>
+     Prise de rendez-vous valide. <value expr="summarization"/>
     </prompt>
   </block>
   

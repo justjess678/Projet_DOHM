@@ -23,19 +23,9 @@
 		<one-of>
 			<!--elements for identification of rdv-->
 			<item>
-				<item repeat="0-1">le</item>
-				<ruleref uri="#date"/>
-				<tag>out.date = rules.date</tag>
-			</item>
-			<item>
-				<item repeat="0-1">a</item>
-				<ruleref uri="#heure"/>
-				<tag>out.heure = rules.heure</tag>
-			</item>
-			<item>
 				<item repeat="0-1">a</item>
 				<ruleref uri="#new_lieu"/>
-				<tag>out.new_lieu = rules.new_lieu</tag>
+				<tag>out.new_lieu = rules.new_lieu.text</tag>
 			</item>
 			<item>
 				<item repeat="0-1">sur</item>
@@ -51,33 +41,10 @@
 	</item>
 </rule>
 
-<rule id="date">
-	<tag> out.date = new Object; </tag>
-		<item>
-			<ruleref uri="grammaire_dates_v3.grxml#Date" />
-			<tag> 	out.date.jour = rules.Date.nb_jour;
-					out.date.mois = rules.Date.num_mois;
-					out.date.annee = rules.Date.nb_annee;
-			</tag>
-		</item>
-</rule>
-
-
-<rule id="heure">
-	<tag> out.horaire = new Object; </tag>
-		<item>
-			<ruleref uri="horaire.grxml#Horaire" />
-			<tag> 	out.horaire.H = rules.Horaire.H;
-					out.horaire.MN = rules.Horaire.MN;
-					out.horaire.NB_MN = rules.Horaire.NB_MN;
-			</tag>
-		</item>
-</rule>
-
 <rule id="new_lieu">
 	<item>
 		<ruleref uri="grammaire_lieu.grxml#lieu" />
-		<tag> out.new_lieu = rules.lieu.text; </tag>
+		<tag> out.text = rules.lieu.text </tag>
 	</item>
 </rule>
 
