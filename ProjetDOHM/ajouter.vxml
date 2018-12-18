@@ -19,7 +19,10 @@
 
 
 <form id="start">
-  <var name="summarization"/>
+  <var name="var_date"/>
+  <var name="var_heure"/>
+  <var name="var_lieu"/>
+  <var name="var_objet"/>
 
   <nomatch>
     <prompt> Je ne comprends pas. </prompt>
@@ -39,10 +42,8 @@
   </help>
 
   
-  
   <grammar src="ajouter.grxml"  type="application/srgs+xml"/>
 
-  
   
   <initial name="mixed">
     Voici l'interface d'ajout de rendez-vous. Veuillez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
@@ -60,9 +61,7 @@
     </help>
   </initial>
 
-  
  
-  
   
   <field name="dateinfo" slot="rdv.date">
     Quel jour souhaitez-vous prendre le rendez-vous ? 
@@ -74,7 +73,7 @@
       S'il vous plait renseignez la date du rendez-vous.
     </help>
     <filled>
-      <assign name="summarization" expr="summarization + dateinfo + ' '"/>
+      <assign name="var_date" expr="dateinfo.text"/>
     </filled>
   </field>
 
@@ -90,16 +89,12 @@
       S'il vous plait renseignez l'horaire du rendez-vous.
     </help>
     <filled>
-      <assign name="summarization" expr="summarization + heure + ' '"/>
+      <assign name="var_heure" expr="heure.text"/>
     </filled>
   </field>
 
   
-  
- 
 
-  
-  
   <field name="lieu" slot="rdv.lieu">
     Quel est le lieu du rendez-vous ? 
     <grammar src="ajouter.grxml#lieu"  type="application/srgs+xml"/>
@@ -110,7 +105,7 @@
       S'il vous plait renseignez le lieu du rendez-vous.
     </help>
     <filled>
-      <assign name="summarization" expr="summarization + lieu + ' '"/>
+      <assign name="var_lieu" expr="lieu"/>
     </filled>
   </field>
   
@@ -126,26 +121,15 @@
       S'il vous plait renseignez l'objet du rendez-vous.
     </help>
     <filled>
-      <assign name="summarization" expr="summarization + objetinfo + ' '"/>
+      <assign name="var_objet" expr="objetinfo"/>
     </filled>
   </field>
 
   
 
   <filled mode="any" namelist="dateinfo heure lieu objetinfo">
-    <prompt>
-      <value expr="summarization"/>
-    </prompt>
   </filled>
 
   
-  
-  <block>
-    <prompt>
-     Prise de rendez-vous valide. <value expr="summarization"/>
-    </prompt>
-  </block>
-  
 </form>
-
 </vxml>
