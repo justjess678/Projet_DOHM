@@ -36,7 +36,8 @@
 			</item>
 			
 			<item>
-				<item repeat="0-1">pour un</item>
+				<item repeat="0-1">pour</item>
+				<item repeat="0-1">un</item>
 				<ruleref uri="#objetinfo"/>
 				<tag>out.rdv.objet = rules.objetinfo.objet_ </tag>
 			</item>
@@ -63,6 +64,7 @@
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
 
+
 <rule id="heure">
 	<item repeat="0-1">a</item>
 	<tag> out.horaire_ = new Object; </tag>
@@ -74,6 +76,7 @@
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
 
+
 <rule id="lieu">
 	<item>
 		<ruleref uri="grammaire_lieu.grxml#lieu" />
@@ -82,6 +85,7 @@
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
 
+
 <rule id="objetinfo">
 	<item>
 		<ruleref uri="grammaire_objet.grxml#objet" />
@@ -89,6 +93,7 @@
 	</item>
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>
+
 
 <rule id="personneinfo">
 	<tag> out.personne_ = new Object; </tag>
