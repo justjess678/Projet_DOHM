@@ -79,7 +79,6 @@
 				<assign name="sql_request" expr="ajouter.summarization"/>
 				<prompt>Souhaitez vous ajouter un autre rendez-vous? </prompt>
 				<!--<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>-->
-				
 			</filled>
 		</subdialog>
 			
