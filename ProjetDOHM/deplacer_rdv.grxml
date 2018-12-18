@@ -73,6 +73,7 @@
 
 <rule id="set_date" scope="public">
   <tag> out = new Array; </tag>
+  <item repeat="0-1"> au </item>
   <item repeat="1-">
 	<ruleref uri="#date"/>
 	<tag> out.push(rules.date); </tag>
@@ -92,6 +93,7 @@
 		</item>
 		<item> non <tag> out.date = ''</tag></item>
 		<item> la meme <tag> out.date = ''</tag></item>
+		<item> pareil <tag> out.date = ''</tag></item>
 	</one-of>
 </rule>
 
@@ -117,6 +119,7 @@
 			</item>
 			<item> non <tag> out.heure = ''</tag></item>
 			<item> la meme <tag> out.heure = ''</tag></item>
+			<item> pareil <tag> out.heure = ''</tag></item>
 		</one-of>
 	</item>
 </rule>

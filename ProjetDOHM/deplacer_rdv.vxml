@@ -6,7 +6,6 @@
 <meta name="copyright" content="free for any purpose"/>
 
 <form id="deplacer_rdv">
-  	<var name="new_rdv"/>
   	<var name="summarization"/>
 
 	<nomatch>
@@ -46,11 +45,14 @@
   </initial>
 
 
-  <filled mode="any" namelist="old_date old_heure new_date new_heure">
-	<assign name="new_rdv" expr="'new rdv details '"/>
+  <filled mode="any" namelist="rdv_old_date old_heure new_date new_heure">
+	<assign name="rdv_old_date" expr="rdv_old_date + ' '"/>
+	<assign name="old_heure" expr="old_heure + ' '"/>
+	<assign name="new_date" expr="new_date + ' '"/>
+	<assign name="new_heure" expr="new_heure + ' '"/>
   </filled>
 
-  <field name="old_date" slot="rdv.old_date">
+  <field name="rdv_old_date" slot="rdv.date">
 	Quelle est la date actuelle du rendez-vous a modifier?
 	<grammar src="deplacer_rdv.grxml#set_date"/>
 	<nomatch>
@@ -60,7 +62,7 @@
 	  Donner la date du rendez-vous a modifier.
 	</help>
 	<filled>
-	  <assign name="old_date" expr="old_date + ' '"/>
+	  <assign name="rdv_old_date" expr="rdv_old_date + ' '"/>
 	</filled>
   </field>
 
@@ -105,12 +107,13 @@
 	  <assign name="new_heure" expr="new_heure + ' '"/>
 	</filled>
   </field>
+
 <block>
 	<script> <![CDATA[
 	  summarization = 'UPDATE rdv \nSET ';
 	  if(new_date != '') summarization += 'date  = ' + new_date + ' ';
 	  if(new_heure != '') summarization += ', heure  = ' + new_heure + ' ';
-	  summarization += '\nWHERE date = ' + old_date;
+	  summarization += '\nWHERE date = ' + rdv_old_date;
 	  if(old_heure != '') summarization += 'AND heure  = ' + old_heure + ' ';
 	]]> </script>
 	<prompt>
