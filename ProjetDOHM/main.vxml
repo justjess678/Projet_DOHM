@@ -21,7 +21,7 @@
 
 	<var name="var_action"/>
 	<var name="var_user_id"/>
-	<var name="sql_request"/>
+	<var name="last_action"/>
 
 	<link event="exit">
 	  <grammar root="main">
@@ -61,6 +61,8 @@
 	    <help>
 	    	Sorry, no help is available.
 	    </help>
+
+
 		
 		<subdialog name="user_id" src="subdialog_ask_id.vxml">
 			<filled>
@@ -68,21 +70,45 @@
 			</filled>
 		</subdialog>
 
+
+
 		<subdialog name="ask_action" src="subdialog_action.vxml">
 			<filled>
 				<assign name="var_action" expr="ask_action.action.text"/>
+				<value expr="var_action" />
 			</filled>
 		</subdialog>
+
+
 		
 		<subdialog name="ajouter" src="ajouter.vxml" cond="var_action=='ajouter'">
 			<filled>
-				<assign name="sql_request" expr="ajouter.summarization"/>
+				<assign name="last_action" expr="'ajouter'"/>
+			</filled>
+		</subdialog>
+
+		<field name="add_again" cond="last_action=='ajouter'">
+			<prompt>Souhaitez vous ajouter un autre rendez-vous? </prompt>
+			<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>
+			<filled>
+				<if cond="add_again=='True'">
+					<clear namelist="ajouter add_again last_action"/>
+				<else/>
+					<clear namelist="ask_action add_again last_action"/>
+				</if>
+		   </filled>
+		</field>
+
+
+
+			
+		<subdialog name="deplacer" src="modifier_rdv2.vxml" cond="var_action=='deplacer'">
+			<filled>
 				<prompt>Souhaitez vous ajouter un autre rendez-vous? </prompt>
 				<!--<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>-->
 			</filled>
 		</subdialog>
-			
-		<subdialog name="deplacer" src="subdialog_action.vxml" cond="ask_action=='deplacer'"/>
+
 		<subdialog name="annuler" src="subdialog_action.vxml" cond="ask_action=='annuler'"/>
 		<subdialog name="consulter" src="subdialog_action.vxml" cond="ask_action=='consulter'"/>
 		

@@ -42,8 +42,6 @@
   
   <grammar src="ajouter.grxml"  type="application/srgs+xml"/>
 
-  
-  
   <initial name="mixed">
     Voici l'interface d'ajout de rendez-vous. Veuillez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
     <nomatch>
@@ -60,9 +58,6 @@
     </help>
   </initial>
 
-  
- 
-  
   
   <field name="dateinfo" slot="rdv.date">
     Quel jour souhaitez-vous prendre le rendez-vous ? 
@@ -94,11 +89,6 @@
     </filled>
   </field>
 
-  
-  
- 
-
-  
   
   <field name="lieu" slot="rdv.lieu">
     Quel est le lieu du rendez-vous ? 
@@ -144,6 +134,7 @@
     <prompt>
      Prise de rendez-vous valide. <value expr="summarization"/>
     </prompt>
+    <return/>
   </block>
   
 </form>

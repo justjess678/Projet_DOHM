@@ -99,11 +99,6 @@
   </field>
 
   
-  
- 
-
-  
-  
   <field name="lieu" slot="rdv.lieu">
     Quel est le lieu du rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#lieu"  type="application/srgs+xml"/>

@@ -34,7 +34,6 @@
 					<assign name="message_confirm" expr="'TRACE action confirme'" />
 					<clear namelist="action confirm" />
 				</if>
-				 TRACE Reponse <value expr="message_confirm" />
 				 <return namelist="action"/>
 		   </filled>
 		</subdialog>
