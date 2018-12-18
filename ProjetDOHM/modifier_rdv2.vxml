@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Pizza ordering"/>
+<meta name="author" content="OptimSys, s.r.o., Czech Republic (http://www.optimsys.cz)"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<link event="help">
+  <grammar root="main">
+    <rule id="main" scope="public">
+      <item repeat="0-1"> SVP </item>
+      <item repeat="0-1"> j'ai besoin d' </item>
+      aide
+      <item repeat="0-1"> je n'y arrive pas </item>
+    </rule>
+  </grammar>
+</link>
+
+
+
+<form id="start">
+  <var name="var_lieu"/>
+  <var name="var_objet"/>
+  <var name="var_date"/>
+  <var name="var_heure"/>
+  <var name="summarization"/>
+
+  <nomatch>
+    <prompt> Je ne comprends pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="2">
+    <prompt> Je suis desole, je ne comprends toujours pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="3">
+    <prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
+    <exit/>
+  </nomatch>
+
+  <help>
+    Desole, aucune aide n'est disponible.
+  </help>
+
+  
+  
+  <grammar src="modifier_rdv2.grxml"  type="application/srgs+xml"/>
+
+  
+  
+  <initial name="mixed">
+    Voici l'interface d'ajout de rendez-vous. Veuillez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
+    <nomatch>
+      Je n'ai pas compris. S'il vous plait veuillez specifier la date, l'heure, le lieu
+    et l'objet du rendez-vous.  
+    </nomatch>
+    <nomatch count="2">
+      Je suis desole, je n'ai toujours pas compris. Je vais vous demander les informations une par une.
+      <assign name="mixed" expr="true"/>
+      <reprompt/>
+    </nomatch>
+    <help>
+    Vous pouvez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
+    </help>
+  </initial>
+
+  
+ 
+  
+  
+  <field name="dateinfo" slot="rdv.date">
+    Quel jour souhaitez-vous prendre le rendez-vous ? 
+    <grammar src="modifier_rdv2.grxml#dateinfo"  type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez la date du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_date" expr="dateinfo.text"/>
+    </filled>
+  </field>
+
+  
+  
+  <field name="heure" slot="rdv.heure">
+    A quelle heure souhaitez-vous prendre le rendez-vous ? 
+    <grammar src="modifier_rdv2.grxml#heure" type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez l'horaire du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_heure" expr="heure.text"/>
+    </filled>
+  </field>
+
+  
+  
+ 
+
+  
+  
+  <field name="lieu" slot="rdv.lieu">
+    Quel est le lieu du rendez-vous ? 
+    <grammar src="modifier_rdv2.grxml#lieu"  type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer le lieu du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez le lieu du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_lieu" expr="lieu"/>
+    </filled>
+  </field>
+  
+  
+  
+   <field name="objetinfo" slot="rdv.objet">
+    Quel est l'objet du rendez-vous ? 
+    <grammar src="modifier_rdv2.grxml#objetinfo"  type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer l'objet du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez l'objet du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_objet" expr="objetinfo"/>
+    </filled>
+  </field>
+
+  
+
+  <filled mode="any" namelist="dateinfo heure lieu objetinfo">
+    <prompt>
+      <value expr="summarization"/>
+    </prompt>
+  </filled>
+
+  
+  
+  <block>
+     <prompt>
+        Votre rdv du <value expr="var_date"/> a <value expr="var_heure"/> a ete modifiee:
+        Lieu: <value expr="var_lieu"/>
+        Sujet: <value expr="var_objet"/>
+     </prompt>
+  </block>
+  
+</form>
+
+</vxml>

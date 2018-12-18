@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar version="1.0" root="modifier_rdv" xml:lang="fr">
+
+<meta name="description" content="grammar pour modifier un rdv"/>
+<meta name="author" content="Pierre Mespoulet"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<rule id="modifier_rdv" scope="public">
+	<item repeat="0-1">
+		<one-of>
+			<item>modifier</item>
+			<item>changer</item>
+			<item>mettre a jour</item>
+		</one-of>
+	</item>
+	
+	<item repeat="0-1">un</item>
+	<item repeat="0-1">rendez-vous</item>
+	<tag> out.rdv = new Object;</tag>	
+	<item repeat="1-">
+		<one-of>
+			<!--elements for identification of rdv-->
+			<item>
+				<ruleref uri="#dateinfo"/>
+				<tag>out.rdv.date = rules.dateinfo.date_</tag>
+			</item>
+			<item>
+				<ruleref uri="#heure"/>
+				<tag>out.rdv.heure = rules.heure.horaire_</tag>
+			</item>
+			
+			<item>
+				<ruleref uri="#lieu"/>
+				<tag>out.rdv.lieu = rules.lieu.ville </tag>
+			</item>
+			
+			<item>
+				<item repeat="0-1">pour</item>
+				<item repeat="0-1">un</item>
+				<ruleref uri="#objetinfo"/>
+				<tag>out.rdv.objet = rules.objetinfo.objet_ </tag>
+			</item>
+			
+			<!-- PB avec personne <item>
+				<item repeat="0-1">avec</item>
+				<ruleref uri="#personneinfo"/>
+				<tag>out.test = rules.personneinfo.test+1; out.rdv.personne = rules.personneinfo.personne_ </tag>
+			</item> --> 
+			
+		</one-of>
+	</item>
+</rule>
+
+
+
+<rule id="dateinfo">
+	<item repeat="0-1">le</item>
+	<tag> out.date_ = new Object; </tag>
+	<item>
+		<ruleref uri="grammaire_dates_v3.grxml#Date" />
+		<tag> 	out.date_ = rules.Date; </tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+</rule>
+
+
+<rule id="heure">
+	<item repeat="0-1">a</item>
+	<tag> out.horaire_ = new Object; </tag>
+	<item>
+		<ruleref uri="horaire.grxml#Horaire" />
+		<tag> 	out.horaire_ = rules.Horaire;
+		</tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+</rule>
+
+
+<rule id="lieu">
+	<item>
+		<ruleref uri="grammaire_lieu.grxml#lieu" />
+		<tag> out.ville = rules.lieu.text; </tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+</rule>
+
+
+<rule id="objetinfo">
+	<item>
+		<ruleref uri="grammaire_objet.grxml#objet" />
+		<tag> out.objet_ = rules.objet.text; </tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+</rule>
+
+
+<rule id="personneinfo">
+	<tag> out.personne_ = new Object; </tag>
+	<item>
+		<ruleref uri="grammaire_personne.grxml#personne" />
+		<tag> out.personne_ = rules.personne; </tag>
+	</item>
+	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
+</rule>
+
+
+<rule id="politesse">
+	<one-of>
+		<item>SVP</item>
+		<item>s'il vous plait</item>
+	</one-of>
+</rule>
+
+<!-- SQL output
+"UPDATE rdv
+SET date = new_date, heure = new_heure, lieu = new_lieu
+WHERE date = date AND heure = heure;"
+-->
+
+</grammar>

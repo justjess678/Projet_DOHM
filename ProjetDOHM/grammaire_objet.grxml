@@ -21,6 +21,7 @@
     <item> rendez-vous medical <tag> out.objet = meta.current().text ;  </tag> </item>
     <item> controle de routine <tag> out.objet = meta.current().text ;  </tag> </item>
     <item> bilan ophtalmologique <tag> out.objet = meta.current().text ;  </tag> </item>
+    <item> dodo <tag> out.objet = meta.current().text ;  </tag> </item>
   </one-of>
 </rule>
 
