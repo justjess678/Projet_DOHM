@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Deplacer un rdv"/>
+<meta name="author" content="jessica Chambers"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<link event="help">
+  <grammar root="main">
+    <rule id="main" scope="public">
+      <item repeat="0-1"> SVP </item>
+      <item repeat="0-1"> j'ai besoin d' </item>
+      aide
+      <item repeat="0-1"> je n'y arrive pas </item>
+    </rule>
+  </grammar>
+</link>
+
+<form id="start">
+  <var name="var_in_date"/>
+  <var name="var_in_heure"/>
+  <var name="var_out_date"/>
+  <var name="var_out_heure"/>
+
+  <nomatch>
+    <prompt> Je ne comprends pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="2">
+    <prompt> Je suis desole, je ne comprends toujours pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="3">
+    <prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
+    <exit/>
+  </nomatch>
+
+  <help>
+    Desole, aucune aide n'est disponible.
+  </help>
+  
+  <grammar src="deplacer_rdv2.grxml"  type="application/srgs+xml"/>
+  
+  <initial name="mixed">
+    Voici l'interface de deplacement de rendez-vous. Veuillez specifier la date, l'heure du rendez-vous a deplacer puis donner la nouvelle date et heure
+    <nomatch>
+      Je n'ai pas compris. S'il vous plait veuillez specifier la date et l'heure d'origine et la nouvelle date et'heure 
+    </nomatch>
+    <nomatch count="2">
+      Je suis desole, je n'ai toujours pas compris. Je vais vous demander les informations une par une.
+      <assign name="mixed" expr="true"/>
+      <reprompt/>
+    </nomatch>
+    <help>
+    Vous pouvez modifier la date et l'heure du rendez-vous. 
+    </help>
+  </initial>
+  
+
+  <field name="f_in_date" slot="rdv.date_in">
+    Quel jour est le rendez-vous ? 
+    <grammar src="deplacer_rdv2.grxml#date_in"  type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez la date du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_in_date" expr="f_in_date.text"/>
+    </filled>
+  </field>
+
+  <field name="f_in_heure" slot="rdv.heure_in">
+    A quelle heure est le rendez-vous ? 
+    <grammar src="deplacer_rdv2.grxml#heure_in" type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez l'horaire du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_in_heure" expr="f_in_heure.text"/>
+    </filled>
+  </field>
+
+  <field name="f_out_date" slot="rdv.date_out">
+    Vers quel jour voulez-vous deplacer le rendez-vous ? 
+    <grammar src="deplacer_rdv2.grxml#date_out"  type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer le nouveau jour du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez le jour du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_out_date" expr="f_out_date.text"/>
+    </filled>
+  </field>
+
+  <field name="f_out_heure" slot="rdv.heure_out">
+    Vers quelle heure voulez-vous deplacer le rendez-vous ? 
+    <grammar src="deplacer_rdv2.grxml#heure_out" type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer la nouvelle horaire du rendez-vous s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez la nouvelle horaire du rendez-vous.
+    </help>
+    <filled>
+      <assign name="var_out_heure" expr="f_out_heure.text"/>
+    </filled>
+  </field>
+
+  <filled mode="any" namelist="f_in_date f_in_heure f_out_date f_out_heure">
+  </filled>
+  
+  <block>
+     <prompt>
+        Votre rdv du <value expr="var_in_date"/> a <value expr="var_in_heure"/> a ete deplacee au 
+        <value expr="var_out_date"/> a <value expr="var_out_heure"/>
+     </prompt>
+     <!-- IF SUBDIALOG
+     <return namelist="f_in_date f_in_heure f_out_date f_out_heure"/>
+   -->
+  </block>
+  
+</form>
+
+</vxml>
