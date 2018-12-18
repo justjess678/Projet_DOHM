@@ -49,7 +49,7 @@
   
   
   <initial name="mixed">
-    Voici l'interface d'ajout de rendez-vous. Veuillez specifier la date, l'heure, le lieu et l'objet du rendez-vous. 
+    Voici l'interface de modification de rendez-vous. Veuillez specifier la date, l'heure du rendez-vous a modifier puis donner le nouveau lieu et/ou objet du rendez-vous. 
     <nomatch>
       Je n'ai pas compris. S'il vous plait veuillez specifier la date, l'heure, le lieu
     et l'objet du rendez-vous.  
@@ -69,7 +69,7 @@
   
   
   <field name="dateinfo" slot="rdv.date">
-    Quel jour souhaitez-vous prendre le rendez-vous ? 
+    Quel jour est le rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#dateinfo"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
@@ -85,7 +85,7 @@
   
   
   <field name="heure" slot="rdv.heure">
-    A quelle heure souhaitez-vous prendre le rendez-vous ? 
+    A quelle heure est le rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#heure" type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
@@ -141,8 +141,6 @@
       <value expr="summarization"/>
     </prompt>
   </filled>
-
-  
   
   <block>
      <prompt>
@@ -150,6 +148,9 @@
         Lieu: <value expr="var_lieu"/>
         Sujet: <value expr="var_objet"/>
      </prompt>
+     <!-- IF SUBDIALOG
+     <return namelist="dateinfo heure lieu objetinfo"/>
+   -->
   </block>
   
 </form>
