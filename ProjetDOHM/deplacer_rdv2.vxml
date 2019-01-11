@@ -58,7 +58,7 @@
   
 
   <field name="f_in_date" slot="rdv.date_in">
-    Quel jour est le rendez-vous ? 
+    Quel jour est le rendez-vous a deplacer? 
     <grammar src="deplacer_rdv2.grxml#date_in"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
@@ -72,7 +72,7 @@
   </field>
 
   <field name="f_in_heure" slot="rdv.heure_in">
-    A quelle heure est le rendez-vous ? 
+    A quelle heure est le rendez-vous a deplacer? 
     <grammar src="deplacer_rdv2.grxml#heure_in" type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
@@ -86,7 +86,7 @@
   </field>
 
   <field name="f_out_date" slot="rdv.date_out">
-    Vers quel jour voulez-vous deplacer le rendez-vous ? 
+    Quel est le nouveau jour du rendez-vous ? 
     <grammar src="deplacer_rdv2.grxml#date_out"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer le nouveau jour du rendez-vous s'il vous plait. 
@@ -100,7 +100,7 @@
   </field>
 
   <field name="f_out_heure" slot="rdv.heure_out">
-    Vers quelle heure voulez-vous deplacer le rendez-vous ? 
+    Quelle est la nouvelle heure du rendez-vous? 
     <grammar src="deplacer_rdv2.grxml#heure_out" type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer la nouvelle horaire du rendez-vous s'il vous plait. 
@@ -121,9 +121,7 @@
         Votre rdv du <value expr="var_in_date"/> a <value expr="var_in_heure"/> a ete deplacee au 
         <value expr="var_out_date"/> a <value expr="var_out_heure"/>
      </prompt>
-     <!-- IF SUBDIALOG
-     <return namelist="f_in_date f_in_heure f_out_date f_out_heure"/>
-   -->
+     <return/>
   </block>
   
 </form>

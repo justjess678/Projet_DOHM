@@ -16,14 +16,11 @@
   </grammar>
 </link>
 
-
-
 <form id="start">
   <var name="var_lieu"/>
   <var name="var_objet"/>
   <var name="var_date"/>
   <var name="var_heure"/>
-  <var name="summarization"/>
 
   <nomatch>
     <prompt> Je ne comprends pas. </prompt>
@@ -45,8 +42,6 @@
   
   
   <grammar src="modifier_rdv2.grxml"  type="application/srgs+xml"/>
-
-  
   
   <initial name="mixed">
     Voici l'interface de modification de rendez-vous. Veuillez specifier la date, l'heure du rendez-vous a modifier puis donner le nouveau lieu et/ou objet du rendez-vous. 
@@ -65,7 +60,7 @@
   </initial>
   
   <field name="dateinfo" slot="rdv.date">
-    Quel jour est le rendez-vous ? 
+    Quel jour est le rendez-vous a modifier? 
     <grammar src="modifier_rdv2.grxml#dateinfo"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer la date du rendez-vous s'il vous plait. 
@@ -79,7 +74,7 @@
   </field>
 
   <field name="heure" slot="rdv.heure">
-    A quelle heure est le rendez-vous ? 
+    A quelle heure est le rendez-vous a modifier? 
     <grammar src="modifier_rdv2.grxml#heure" type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous s'il vous plait. 
@@ -93,7 +88,7 @@
   </field>
 
   <field name="lieu" slot="rdv.lieu">
-    Quel est le lieu du rendez-vous ? 
+    Quel est le nouveau lieu du rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#lieu"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer le lieu du rendez-vous s'il vous plait. 
@@ -102,12 +97,12 @@
       S'il vous plait renseignez le lieu du rendez-vous.
     </help>
     <filled>
-      <assign name="var_lieu" expr="lieu"/>
+      <assign name="var_lieu" expr="lieu.ville"/>
     </filled>
   </field>
   
    <field name="objetinfo" slot="rdv.objet">
-    Quel est l'objet du rendez-vous ? 
+    Quel est le nouvel objet du rendez-vous ? 
     <grammar src="modifier_rdv2.grxml#objetinfo"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'objet du rendez-vous s'il vous plait. 
@@ -116,25 +111,20 @@
       S'il vous plait renseignez l'objet du rendez-vous.
     </help>
     <filled>
-      <assign name="var_objet" expr="objetinfo"/>
+      <assign name="var_objet" expr="objetinfo.objet_"/>
     </filled>
   </field>
 
   <filled mode="any" namelist="dateinfo heure lieu objetinfo">
-    <prompt>
-      <value expr="summarization"/>
-    </prompt>
   </filled>
   
   <block>
      <prompt>
-        Votre rdv du <value expr="var_date"/> a <value expr="var_heure"/> a ete modifiee:
-        Lieu: <value expr="var_lieu"/>
-        Sujet: <value expr="var_objet"/>
+        Votre rdv du <value expr="var_date"/> a <value expr="var_heure"/> a ete modifie:
+        Nouveau lieu: <value expr="var_lieu"/>
+        Nouveau objet: <value expr="var_objet"/>
      </prompt>
-     <!-- IF SUBDIALOG
-     <return namelist="dateinfo heure lieu objetinfo"/>
-   -->
+     <return/>
   </block>
   
 </form>

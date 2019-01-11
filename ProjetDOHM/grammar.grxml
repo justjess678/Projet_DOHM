@@ -44,14 +44,26 @@
 	    <item>ajouter<tag>out.text = "ajouter"</tag></item>
 	    <item>creer  <tag>out.text = "ajouter"</tag></item>
 		<item>prendre<tag>out.text = "ajouter"</tag></item>
-	    <item>supprimer<tag>out.text = "supprimer"</tag></item>
-	    <item>enlever<tag>out.text = "supprimer"</tag></item>
-	    <item>annuler<tag>out.text = "supprimer"</tag></item>
-	    <item>retirer<tag>out.text = "supprimer"</tag></item>
+
+	    <item>supprimer<tag>out.text = "annuler"</tag></item>
+	    <item>enlever<tag>out.text = "annuler"</tag></item>
+	    <item>annuler<tag>out.text = "annuler"</tag></item>
+	    <item>retirer<tag>out.text = "annuler"</tag></item>
+
 	    <item>modifier<tag>out.text = "modifier"</tag></item>
 	    <item>changer<tag>out.text = "modifier"</tag></item>
+
 	    <item>deplacer<tag>out.text = "deplacer"</tag></item>
 	    <item>bouger<tag>out.text = "deplacer"</tag></item>
+	    <item>decaler<tag>out.text = "deplacer"</tag></item>
+
+	    <item>consulter<tag>out.text = "consulter"</tag></item>
+	    <item>voir<tag>out.text = "consulter"</tag></item>
+	    <item>regarder<tag>out.text = "consulter"</tag></item>
+
+	    <item>quitter<tag>out.text = "quitter"</tag></item>
+	    <item>stop<tag>out.text = "quitter"</tag></item>
+	    <item>quit<tag>out.text = "quitter"</tag></item>
 	</one-of>
 </rule>
 

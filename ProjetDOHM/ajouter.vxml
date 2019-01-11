@@ -106,7 +106,7 @@
   
   
    <field name="objetinfo" slot="rdv.objet">
-    Quel est l'objet du rendez-vous ? 
+    Quel est l'objet du rendez-vous ?
     <grammar src="ajouter.grxml#objetinfo"  type="application/srgs+xml"/>
     <nomatch>
       Je ne comprends pas, veuillez indiquer l'objet du rendez-vous s'il vous plait. 
@@ -119,15 +119,12 @@
     </filled>
   </field>
 
-  
-
   <filled mode="any" namelist="dateinfo heure lieu objetinfo">
   </filled>
-
   
   <block>
     <prompt>
-     Prise de rendez-vous valide. <value expr="summarization"/>
+     Prise de rendez-vous valide.
     </prompt>
     <return/>
   </block>

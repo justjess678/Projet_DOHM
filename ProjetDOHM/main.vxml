@@ -4,9 +4,9 @@
 
 <vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
 
-	<meta name="description" content="Gestion agenda version 0"/>
-	<meta name="author" content="Pierre MESPOULET"/>
-	<meta name="copyright" content="IUP SI M2 Pro Dialogue"/>
+	<meta name="description" content="Gestion agenda version finale"/>
+	<meta name="author" content="Kevin CORTACERO"/>
+	<meta name="copyright" content="3ASRI"/>
 
 	<!-- Version de base : gestion de dialogue et comprehension -->
 	<!-- Demande et verification du numero d'abonne -->
@@ -63,24 +63,33 @@
 	    </help>
 
 
-		
+		<!--
+		Demander l'identifiant de l'utilisateur une seule fois pour le dialogue
+		-->
 		<subdialog name="user_id" src="subdialog_ask_id.vxml">
 			<filled>
 				<assign name="var_user_id" expr="user_id.num_abonne.nb"/>
 			</filled>
 		</subdialog>
+		<!-- ###################################################################################### -->
 
 
 
+		<!--
+		Demander l'action à réaliser, peut être rappeler après la réalisation d'une action
+		-->
 		<subdialog name="ask_action" src="subdialog_action.vxml">
 			<filled>
 				<assign name="var_action" expr="ask_action.action.text"/>
 				<value expr="var_action" />
 			</filled>
 		</subdialog>
+		<!-- ###################################################################################### -->
 
 
-		
+		<!--
+		Ajouter un rendez-vous
+		-->
 		<subdialog name="ajouter" src="ajouter.vxml" cond="var_action=='ajouter'">
 			<filled>
 				<assign name="last_action" expr="'ajouter'"/>
@@ -98,19 +107,85 @@
 				</if>
 		   </filled>
 		</field>
+		<!-- ###################################################################################### -->
 
-
-
-			
-		<subdialog name="deplacer" src="modifier_rdv2.vxml" cond="var_action=='deplacer'">
+		<!--
+		Modifier un rendez-vous (lieu et/ou objet)
+		-->
+		<subdialog name="modifier" src="modifier_rdv2.vxml" cond="var_action=='modifier'">
 			<filled>
-				<prompt>Souhaitez vous ajouter un autre rendez-vous? </prompt>
-				<!--<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>-->
+				<assign name="last_action" expr="'modifier'"/>
 			</filled>
 		</subdialog>
 
-		<subdialog name="annuler" src="subdialog_action.vxml" cond="ask_action=='annuler'"/>
-		<subdialog name="consulter" src="subdialog_action.vxml" cond="ask_action=='consulter'"/>
+		<field name="change_again" cond="last_action=='modifier'">
+			<prompt>Souhaitez vous modifier un autre rendez-vous? </prompt>
+			<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>
+			<filled>
+				<if cond="change_again=='True'">
+					<clear namelist="modifier change_again last_action"/>
+				<else/>
+					<clear namelist="ask_action change_again last_action"/>
+				</if>
+		   </filled>
+		</field>
+		<!-- ###################################################################################### -->
+
+		<!--
+		Déplacer un rendez-vous (date et/ou heure)
+		-->
+		<subdialog name="deplacer" src="deplacer_rdv2.vxml" cond="var_action=='deplacer'">
+			<filled>
+				<assign name="last_action" expr="'deplacer'"/>
+			</filled>
+		</subdialog>
+		
+		<field name="move_again" cond="last_action=='deplacer'">
+			<prompt>Souhaitez vous deplacer un autre rendez-vous? </prompt>
+			<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>
+			<filled>
+				<if cond="move_again=='True'">
+					<clear namelist="deplacer move_again last_action"/>
+				<else/>
+					<clear namelist="ask_action move_again last_action"/>
+				</if>
+		   </filled>
+		</field>
+		<!-- ###################################################################################### -->
+
+		<!--
+		Annuler un rendez-vous
+		-->
+		<subdialog name="annuler" src="annuler_rdv.vxml" cond="var_action=='annuler'">
+			<filled>
+				<assign name="last_action" expr="'annuler'"/>
+			</filled>
+		</subdialog>
+
+		<field name="cancel_again" cond="last_action=='annuler'">
+			<prompt>Souhaitez vous annuler un autre rendez-vous? </prompt>
+			<grammar src="grammaire_act_lang_confirmation_v2.grxml" type="application/srgs+xml"/>
+			<filled>
+				<if cond="cancel_again=='True'">
+					<clear namelist="annuler cancel_again last_action"/>
+				<else/>
+					<clear namelist="ask_action cancel_again last_action"/>
+				</if>
+		   </filled>
+		</field>
+		<!-- ###################################################################################### -->
+
+
+		<!--
+		Visualiser les rendez-vous
+		-->
+		<block cond="var_action=='consulter'">
+	    	<prompt>
+		        VOIR
+	    	</prompt>
+	    	<clear namelist="ask_action"/>
+		</block>
+		<!-- ###################################################################################### -->
 		
 
 	</form>

@@ -50,7 +50,7 @@
 	<tag> out.date_ = new Object; </tag>
 	<item>
 		<ruleref uri="grammaire_dates_v3.grxml#Date" />
-		<tag> 	out.date_ = rules.Date; </tag>
+		<tag> 	out.date_ = rules.Date.text; </tag>
 	</item>
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>

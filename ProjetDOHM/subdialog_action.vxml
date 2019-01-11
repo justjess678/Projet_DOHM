@@ -4,7 +4,7 @@
 
 <vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
 
-<meta name="description" content="Gestion confirmation"/>
+<meta name="description" content="Choix action"/>
 <meta name="author" content="Kevin CORTACERO"/>
 <meta name="copyright" content="3ASRI"/>
 	
@@ -12,14 +12,14 @@
 
 	<form id="ask_action">
 		<field name="action">
-			<prompt> Vous etes a present connecte, que souhaitez-vous faire? </prompt>
+			<prompt> Que souhaitez-vous faire? </prompt>
 			<grammar src="grammar.grxml#action"/>
 			<help>
-				Veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv...
+				Veuillez indiquer ce que vous souhaitez faire: prendre rdv, consulter vos rdv, decaler un rdv...
 			</help>
-			<noinput> Je n'ai pas entendu. veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv... </noinput>
+			<noinput> Je n'ai pas entendu. veuillez indiquer ce que vous souhaitez faire: prendre rdv, consulter vos rdv, decaler un rdv... </noinput>
 			<nomatch>
-				Je n'ai pas compris, veuillez indiquer ce que vous souhaitez faire: prendre rdv, voir vos rdv, decaler un rdv...
+				Je n'ai pas compris, veuillez indiquer ce que vous souhaitez faire: prendre rdv, consulter vos rdv, decaler un rdv...
 			</nomatch>
 			<filled>
 				Vous souhaitez <value expr="action.text" />
