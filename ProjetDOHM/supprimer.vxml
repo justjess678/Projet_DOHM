@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+<meta name="description" content="Pizza ordering"/>
+<meta name="author" content="OptimSys, s.r.o., Czech Republic (http://www.optimsys.cz)"/>
+<meta name="copyright" content="free for any purpose"/>
+
+<link event="help">
+  <grammar root="main">
+    <rule id="main" scope="public">
+      <item repeat="0-1"> SVP </item>
+      <item repeat="0-1"> j'ai besoin d' </item>
+      aide
+      <item repeat="0-1"> je n'y arrive pas </item>
+    </rule>
+  </grammar>
+</link>
+
+
+
+<form id="start">
+  <var name="var_date"/>
+  <var name="var_heure"/>
+
+
+  <nomatch>
+    <prompt> Je ne comprends pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="2">
+    <prompt> Je suis desole, je ne comprends toujours pas. </prompt>
+    <reprompt/>
+  </nomatch>
+  <nomatch count="3">
+    <prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
+    <return/>
+  </nomatch>
+
+  <help>
+    Desole, aucune aide n'est disponible.
+  </help>
+
+  
+  <grammar src="ajouter.grxml"  type="application/srgs+xml"/>
+
+  <initial name="mixed">
+    Voici l'interface de suppression de rendez-vous. Veuillez specifier la date et l'heure du rendez-vous a supprimer. 
+    <nomatch>
+      Je n'ai pas compris. S'il vous plait veuillez specifier la date et l'heure du rendez-vous a supprimer.  
+    </nomatch>
+    <nomatch count="2">
+      Je suis desole, je n'ai toujours pas compris. Je vais vous demander les informations une par une.
+      <assign name="mixed" expr="true"/>
+      <reprompt/>
+    </nomatch>
+    <help>
+	  Vous pouvez specifier la date et l'heure du rendez-vous a supprimer. 
+    </help>
+  </initial>
+
+  <field name="dateinfo" slot="rdv.date">
+    Quel est le jour du rendez-vous a supprimer ? 
+    <grammar src="ajouter.grxml#dateinfo"  type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer la date du rendez-vous a supprimer s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez la date du rendez-vous a supprimer.
+    </help>
+    <filled>
+      <assign name="var_date" expr="dateinfo.text"/>
+    </filled>
+  </field>
+  
+  <field name="heure" slot="rdv.heure">
+    Quelle est l'heure du rendez-vous a supprimer ? 
+    <grammar src="ajouter.grxml#heure" type="application/srgs+xml"/>
+    <nomatch>
+      Je ne comprends pas, veuillez indiquer l'horaire du rendez-vous a supprimer s'il vous plait. 
+    </nomatch>
+    <help>
+      S'il vous plait renseignez l'horaire du rendez-vous a supprimer.
+    </help>
+    <filled>
+      <assign name="var_heure" expr="heure.text"/>
+    </filled>
+  </field>
+
+  
+
+  <filled mode="any" namelist="dateinfo heure">
+  </filled>
+  
+  <block>
+    <prompt>
+      Rendez-vous supprimer.
+    </prompt>
+    <return/>
+  </block>
+
+</form>
+</vxml>
