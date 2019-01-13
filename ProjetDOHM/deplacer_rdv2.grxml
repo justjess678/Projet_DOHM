@@ -96,10 +96,5 @@
 	</one-of>
 </rule>
 
-<!-- SQL output
-"UPDATE rdv
-SET date = new_date, heure = new_heure, lieu = new_lieu
-WHERE date = date AND heure = heure;"
--->
 
 </grammar>

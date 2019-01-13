@@ -116,11 +116,17 @@
   <filled mode="any" namelist="f_in_date f_in_heure f_out_date f_out_heure">
   </filled>
   
+  
   <block>
-     <prompt>
+	<prompt>
+		 UPDATE rdv
+		 SET date = '<value expr="var_out_date"/>', heure = '<value expr="var_out_heure"/>'
+		 WHERE date = '<value expr="var_in_date"/>' AND heure = '<value expr="var_in_heure"/>';
+	</prompt>
+    <prompt>
         Votre rdv du <value expr="var_in_date"/> a <value expr="var_in_heure"/> a ete deplacee au 
         <value expr="var_out_date"/> a <value expr="var_out_heure"/>
-     </prompt>
+    </prompt>
      <return/>
   </block>
   
