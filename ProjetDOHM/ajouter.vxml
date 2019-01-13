@@ -122,8 +122,16 @@
   <filled mode="any" namelist="dateinfo heure lieu objetinfo">
   </filled>
   
+  
   <block>
     <prompt>
+	 INSERT INTO rdv VALUES ('<value expr="var_date"/>
+	 ', '<value expr="var_heure"/>
+	 ', '<value expr="var_lieu"/>
+	 ', '<value expr="var_objet"/>
+	 ') 
+	 </prompt>
+	 <prompt>
      Prise de rendez-vous valide.
     </prompt>
     <return/>
