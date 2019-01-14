@@ -60,6 +60,8 @@
     </help>
   </initial>
 
+
+
   <field name="dateinfo" slot="rdv.date">
     Quel jour souhaitez-vous prendre le rendez-vous ? 
     <grammar src="ajouter.grxml#dateinfo"  type="application/srgs+xml"/>
@@ -119,10 +121,11 @@
     </filled>
   </field>
 
-  <filled mode="any" namelist="dateinfo heure lieu objetinfo">
-  </filled>
+
+
   
-  
+    
+    
   <block>
     <prompt>
 	 INSERT INTO rdv VALUES ('<value expr="var_date"/>

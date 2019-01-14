@@ -23,8 +23,9 @@
 			<!--elements for identification of rdv-->
 			<item>
 				<ruleref uri="#dateinfo"/>
-				<tag>out.rdv.date = rules.dateinfo.date_</tag>
+				<tag>out.rdv.date = rules.dateinfo.date</tag>
 			</item>
+
 			<item>
 				<ruleref uri="#heure"/>
 				<tag>out.rdv.heure = rules.heure.horaire_</tag>
@@ -56,10 +57,10 @@
 
 <rule id="dateinfo">
 	<item repeat="0-1">le</item>
-	<tag> out.date_ = new Object; </tag>
+	<tag> out.date = new Object; </tag>
 	<item>
 		<ruleref uri="grammaire_dates_v3.grxml#Date" />
-		<tag> 	out.date_ = rules.Date; </tag>
+		<tag> 	out.date = rules.Date; </tag>
 	</item>
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>

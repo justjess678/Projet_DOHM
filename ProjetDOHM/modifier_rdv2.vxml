@@ -120,9 +120,9 @@
   
   <block>
      <prompt>
-        Votre rdv du <value expr="var_date"/> a <value expr="var_heure"/> a ete modifie:
-        Nouveau lieu: <value expr="var_lieu"/>
-        Nouveau objet: <value expr="var_objet"/>
+        UPDATE rdv
+        SET objet = '<value expr="var_objet"/>', lieu = '<value expr="var_lieu"/>'
+        WHERE date = '<value expr="var_date"/>' AND heure = '<value expr="var_heure"/>';
      </prompt>
      <return/>
   </block>

@@ -46,20 +46,20 @@
 	<form id="agenda">
 
 		<nomatch>
-		    <prompt> I didn't understand you. </prompt>
-		    <reprompt/>
+	    	<prompt> Je ne comprends pas. </prompt>
+	    	<reprompt/>
 	    </nomatch>
-		    <nomatch count="3">
-		    <prompt> I didn't understand you again. This is your last chance. </prompt>
-		    <reprompt/>
-	    </nomatch>
-	    <nomatch count="4">
-		    <prompt> Sorry, I didn't understand you again. I am giving up. Bye. </prompt>
-		    <exit/>
-	    </nomatch>
+	  	<nomatch count="2">
+	    	<prompt> Je suis desole, je ne comprends toujours pas. </prompt>
+	    	<reprompt/>
+	  	</nomatch>
+	  	<nomatch count="3">
+	    	<prompt> Je suis desole, mais je ne comprends toujours pas. J'abandonne. </prompt>
+	    	<return/>
+	  	</nomatch>
 
 	    <help>
-	    	Sorry, no help is available.
+	    	Désolé, pas d'aide!
 	    </help>
 
 
@@ -156,7 +156,7 @@
 		<!--
 		Annuler un rendez-vous
 		-->
-		<subdialog name="annuler" src="annuler_rdv.vxml" cond="var_action=='annuler'">
+		<subdialog name="annuler" src="supprimer.vxml" cond="var_action=='annuler'">
 			<filled>
 				<assign name="last_action" expr="'annuler'"/>
 			</filled>
@@ -181,7 +181,7 @@
 		-->
 		<block cond="var_action=='consulter'">
 	    	<prompt>
-		        VOIR
+		        SELECT * FROM rdv WHERE id=user_id
 	    	</prompt>
 	    	<clear namelist="ask_action"/>
 		</block>
@@ -190,179 +190,3 @@
 
 	</form>
 </vxml>
-
-	<!--
-	<field name = "date">
-		<prompt> Pouriez-vous me donner une date de rendez-vous ? </prompt>
-		<grammar src ="grammaire_dates_v3.grxml" type="application/srgs+xml" />
-		<help> Donner d'abord le jour de la semaine, puis la date du rendez-vous suivi du mois, et optionnellement l'annee  </help>
-		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner la date du rendez-vous s'il vous plait ? </noinput>
-		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner la date du rendez-vous s'il vous plait ? </nomatch>
-		<filled>
-			Le rendez-vous aura lieu le <value expr="date.text"/>
-			<if cond="mode_trace=='True'">
-				TRACE VALEUR  <value expr="date.num_jour" /> <value expr="date.nb_jour" /> <value expr="date.num_mois" /> <value expr="date.nb_annee" />
-			</if>
-		</filled>
-	</field>
-
-
-
-	<subdialog name="confirm2" src="subdialog_confirmation.vxml">
-		<filled>
-			<if cond="confirm2.confirm_input=='True'">
-				<assign name="message_confirm" expr="'TRACE date confirme'" />
-			<else/>
-				<assign name="message_confirm" expr="'TRACE date confirme'" />
-				<clear namelist="date confirm2" />
-			</if>
-		   <if cond="mode_trace=='True'">
-			 TRACE Reponse <value expr="message_confirm" />
-		   </if>
-	   </filled>
-    </subdialog>
-	
-	
-	<field name = "horaire">
-		<prompt> Pouriez-vous me donner un horaire pour le rendez-vous ? </prompt>
-		<grammar src ="horaire.grxml" type="application/srgs+xml" />
-		<help> Donner l'heure puis les minutes </help>
-		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner l'horaire du rendez-vous s'il vous plait ? </noinput>
-		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner l'horaire du rendez-vous s'il vous plait ? </nomatch>
-		<filled>
-				<if cond="horaire.H &gt; 23 || horaire.H &gt; 60">
-					<prompt> L'horaire demande n'est pas valide </prompt>
-					<clear namelist= "horaire"/>
-				</if>
-				<if cond="horaire.NB_MN &lt; 450 || horaire.NB_MN &gt; 1290">
-					<prompt> L'horaire demande est en dehors des heures d'ouvertures, veuillez selectionner un horaire entre sept heures trente et vingt et une heures trente </prompt>
-					<clear namelist="horaire" />
-				<else/>
-					Le rendez-vous aura lieu a <value expr="horaire.text"/>  
-				</if>
-				<if cond="mode_trace=='True'">
-					TRACE VALEUR  <value expr="horaire.text"/>  
-				</if>
-		</filled>
-	</field>
-
-
-	
-	<subdialog name="confirm3" src="subdialog_confirmation.vxml">
-		<filled>
-			<if cond="confirm3.confirm_input=='True'">
-				<assign name="message_confirm" expr="'TRACE horaire confirme'" />
-			<else/>
-				<assign name="message_confirm" expr="'TRACE horaire confirme'" />
-				<clear namelist="horaire confirm3" />
-			</if>
-		   <if cond="mode_trace=='True'">
-			 TRACE Reponse <value expr="message_confirm" />
-		   </if>
-	   </filled>
-    </subdialog>
-	
-	
-	<field name = "lieu">
-		<prompt> Pouriez-vous renseigner le lieu du rendez-vous ? </prompt>
-		<grammar src ="grammaire_lieu.grxml" type="application/srgs+xml" />
-		<help> Indiquez la ville du rendez-vous, les possibilites sont Toulouse, Marseille, Bordeaux et Paris</help>
-		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner le lieu du rendez-vous s'il vous plait ? </noinput>
-		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner le lieu du rendez-vous s'il vous plait ? </nomatch>
-		<filled>
-			Le rendez-vous aura lieu a <value expr="lieu.text"/>
-			<if cond="mode_trace=='True'">
-				TRACE VALEUR  <value expr="lieu.text"/>
-			</if>
-		</filled>
-	</field>
-	
-	
-	<subdialog name="confirm4" src="subdialog_confirmation.vxml">
-		<filled>
-			<if cond="confirm4.confirm_input=='True'">
-				<assign name="message_confirm" expr="'TRACE lieu confirme'" />
-			<else/>
-				<assign name="message_confirm" expr="'TRACE lieu confirme'" />
-				<clear namelist="lieu confirm4" />
-			</if>
-		   <if cond="mode_trace=='True'">
-			 TRACE Reponse <value expr="message_confirm" />
-		   </if>
-	   </filled>
-    </subdialog>
-	
-	
-	<field name = "personne">
-		<prompt> Pouriez-vous renseigner le nom de la personne avec qui vous souhaitez prendre rendez-vous ? </prompt>
-		<grammar src ="grammaire_personne.grxml" type="application/srgs+xml" />
-		<help> Indiquez le nom et optionnelement le titre de la personne avec qui vous souhaitez prendre rendez-vous</help>
-		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner le nom de la personne avec qui vous souhaitez prendre rendez-vous s'il vous plait ? </noinput>
-		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner le nom de la personne avec qui vous souhaitez prendre rendez-vous s'il vous plait ? </nomatch>
-		<filled>
-			Vous avez rendez-vous avec <value expr="personne.nom"/>
-			<if cond="mode_trace=='True'">
-				TRACE VALEUR  <value expr="personne.nom"/>
-			</if>
-		</filled>
-	</field>
-	
-
-	
-	<subdialog name="confirm5" src="subdialog_confirmation.vxml">
-		<filled>
-			<if cond="confirm5.confirm_input=='True'">
-				<assign name="message_confirm" expr="'TRACE personne confirme'" />
-			<else/>
-				<assign name="message_confirm" expr="'TRACE personne confirme'" />
-				<clear namelist="personne confirm5" />
-			</if>
-		   <if cond="mode_trace=='True'">
-			 TRACE Reponse <value expr="message_confirm" />
-		   </if>
-	   </filled>
-    </subdialog>
-	
-	
-<field name = "objet">
-		<prompt> Pouriez-vous renseigner l'objet du rendez-vous ? </prompt>
-		<grammar src ="grammaire_objet.grxml" type="application/srgs+xml" />
-		<help> Indiquez l'objet du rendez-vous, les possibilités sont </help>
-		<noinput> Je n'ai pas entendu. Pouriez-vous me redonner l'objet du rendez-vous s'il vous plait ? </noinput>
-		<nomatch> Je n'ai pas compris. Pouriez-vous me redonner l'objet du rendez-vous s'il vous plait ? </nomatch>
-		<filled>
-			L'objet du rendez-vous est un <value expr="objet.text"/>
-			<if cond="mode_trace=='True'">
-				TRACE VALEUR  <value expr="objet.text"/>
-			</if>
-		</filled>
-	</field>
-	
-
-	
-	<subdialog name="confirm6" src="subdialog_confirmation.vxml">
-		<filled>
-			<if cond="confirm6.confirm_input=='True'">
-				<assign name="message_confirm" expr="'TRACE objet confirme'" />
-			<else/>
-				<assign name="message_confirm" expr="'TRACE objet confirme'" />
-				<clear namelist="objet confirm6" />
-			</if>
-		   <if cond="mode_trace=='True'">
-			 TRACE Reponse <value expr="message_confirm" />
-		   </if>
-	   </filled>
-    </subdialog>
-	
-
-	<block>
-		Vous avez pris rendez vous le <value expr="date.text"/> 
-		a <value expr="horaire.text"/>  
-		a <value expr="lieu.text"/> 
-		avec <value expr="personne.nom"/> 
-		pour un <value expr="objet.text"/>
-	</block>
-
-
-	-->
-

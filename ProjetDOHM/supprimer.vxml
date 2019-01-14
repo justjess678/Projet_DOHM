@@ -91,9 +91,13 @@
   <filled mode="any" namelist="dateinfo heure">
   </filled>
   
+
   <block>
     <prompt>
-      Rendez-vous supprimer.
+      DELETE FROM rdv WHERE date = '<value expr="var_date"/>' AND heure = '<value expr="var_heure"/>';
+    </prompt>
+    <prompt>
+      Rendez-vous supprime.
     </prompt>
     <return/>
   </block>

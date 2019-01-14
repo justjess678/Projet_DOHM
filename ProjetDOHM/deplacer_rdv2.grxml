@@ -18,29 +18,25 @@
 	<item repeat="0-1">un</item>
 	<item repeat="0-1">rendez-vous</item>
 	<tag> out.rdv = new Object;</tag>	
-	<item repeat="1-">
-		<one-of>
-			<!--elements for identification of rdv-->
-			<item>
-				<ruleref uri="#date_in"/>
-				<tag>out.rdv.date_in = rules.date_in.date_</tag>
-			</item>
-			<item>
-				<ruleref uri="#heure_in"/>
-				<tag>out.rdv.heure_in = rules.heure_in.horaire_</tag>
-			</item>
-			<item>
-				<ruleref uri="#date_out"/>
-				<tag>out.rdv.date_out = rules.date_out.date_</tag>
-			</item>
-			<item>
-				<ruleref uri="#heure_out"/>
-				<tag>out.rdv.heure_out = rules.heure_out.horaire_</tag>
-			</item>
-			
-			
-		</one-of>
+	
+	<!--elements for identification of rdv-->
+	<item>
+		<ruleref uri="#date_in"/>
+		<tag>out.rdv.date_in = rules.date_in.date_</tag>
 	</item>
+	<item>
+		<ruleref uri="#heure_in"/>
+		<tag>out.rdv.heure_in = rules.heure_in.horaire_</tag>
+	</item>
+
+	<item>
+		<ruleref uri="#date_out"/>
+		<tag>out.rdv.date_out = rules.date_out.date_</tag>
+	</item>
+	<item>
+		<ruleref uri="#heure_out"/>
+		<tag>out.rdv.heure_out = rules.heure_out.horaire_</tag>
+	</item>		
 </rule>
 
 
@@ -50,7 +46,7 @@
 	<tag> out.date_ = new Object; </tag>
 	<item>
 		<ruleref uri="grammaire_dates_v3.grxml#Date" />
-		<tag> 	out.date_ = rules.Date.text; </tag>
+		<tag> 	out.date_ = rules.Date; </tag>
 	</item>
 	<item repeat="0-1"> <ruleref uri="#politesse" /> </item>
 </rule>

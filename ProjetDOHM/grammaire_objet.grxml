@@ -8,13 +8,9 @@
 
 <!-- Confirmation ou non confirmation -->
 <rule id="objet" scope="public">
-      <item repeat="0-1"> <ruleref uri="#bruit" /> </item>
       <item> <ruleref uri="#object" /> <tag> out.text = rules.object.objet  </tag> </item>
 </rule> 
 
-<rule id="bruit" >
-	<item> un </item>
-</rule>
 
 <rule id="object" >
   <one-of>
